@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 
 const RelatedLinks = [
@@ -104,7 +104,7 @@ export default function Footer() {
       </div>
       <div className="bg-gray-800 py-4">
         <p className="text-sm">
-          Copyright © 2020 - All Rights Reserved - Official Website of Mecon
+          Copyright © 2020 - All Rights Reserved - Official Website of MECON
           Limited, Doranda Main Road, Vivekanand Chowk, Shyamali Colony,
           Doranda, Ranchi, Jharkhand 834002
         </p>
