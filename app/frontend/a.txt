@@ -1,0 +1,8 @@
+<figure className="relative w-full h-full">
+  <Image
+    src={loginImage}
+    alt="Landscape picture"
+    layout="fill"
+    objectFit="cover" // Ensures the image covers the entire container
+  />
+</figure>

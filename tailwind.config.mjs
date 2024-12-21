@@ -1,6 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 /** @type {import('tailwindcss').Config} */
-import daisyui from 'daisyui';
+import daisyui from "daisyui";
+import typography from "@tailwindcss/typography";
 export default {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -15,7 +16,7 @@ export default {
       },
     },
   },
-  plugins: [daisyui],
+  plugins: [typography, daisyui],
   daisyui: {
     themes: ["light", "dark"], // Ensure 'light' is the first theme
     darkTheme: "light", // Optional, specifies the dark theme explicitly
