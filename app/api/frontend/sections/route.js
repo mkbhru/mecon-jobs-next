@@ -16,8 +16,6 @@ export async function GET() {
   try {
     // Query to fetch sections and their items
     const [sections] = await db.query("SELECT * FROM sections");
-    console.log([sections]);
-    console.log("sections");
     const sectionsWithItems = [];
 
     // Fetch items for each section

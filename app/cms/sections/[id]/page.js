@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Loading from "@/app/components/Loading";
 
-const SectionItemsPage = () => {
+const SectionItemsPage = ({params}) => {
   const { id } = useParams(); // Use the `useParams` hook to get the `id`
   const [items, setItems] = useState([]);
   const [section, setSection] = useState({});

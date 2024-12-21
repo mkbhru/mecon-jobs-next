@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
-const AddItemPage = ({ params }) => {
-  const { id } = params;
+const AddItemPage = () => {
+  const { id } = useParams();
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
