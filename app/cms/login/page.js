@@ -1,14 +1,16 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import loginImage from "../../../public/login1.jpg";
+import {  useRouter } from "next/navigation";
+import loginImage from "../../../public/login.jpg";
+
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); // For displaying error messages
   const router = useRouter();
+
 
   const handleLogin = async (e) => {
     e.preventDefault();

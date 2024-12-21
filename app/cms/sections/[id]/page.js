@@ -1,47 +1,82 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import Loading from "@/app/components/Loading";
 
-const SectionItemsPage = ({ params }) => {
-  const { id } = params;
+const SectionItemsPage = () => {
+  const { id } = useParams(); // Use the `useParams` hook to get the `id`
   const [items, setItems] = useState([]);
   const [section, setSection] = useState({});
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
-    // Fetch section and its items
-    const fetchSectionItems = async () => {
+    if (!id) return;
+
+    // Fetch section details and items
+    const fetchSectionData = async () => {
       try {
-        const response = await fetch(`/api/cms/sections/${id}`);
-        const data = await response.json();
-        setSection(data.section);
-        setItems(data.items);
-        setLoading(false);
+        // Fetch section details
+        const sectionResponse = await fetch(`/api/cms/sections/${id}`);
+        if (!sectionResponse.ok) {
+          throw new Error("Failed to fetch section details");
+        }
+        const sectionData = await sectionResponse.json();
+
+        // Fetch items for the section
+        const itemsResponse = await fetch(`/api/cms/sections/${id}/items`);
+        if (!itemsResponse.ok) {
+          throw new Error("Failed to fetch section items");
+        }
+        const itemsData = await itemsResponse.json();
+
+        setSection(sectionData);
+        setItems(itemsData);
       } catch (error) {
-        console.error("Error fetching section items:", error);
+        console.error("Error loading section data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchSectionItems();
+    fetchSectionData();
   }, [id]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   return (
-    <div>
-      <h1>Items in Section: {section.name}</h1>
-      <ul>
-        {items.map((item) => (
-          <li key={item.id}>{item.content}</li>
-        ))}
-      </ul>
-      <button onClick={() => router.push(`/cms/sections/${id}/items/new`)}>
-        Add New Item
-      </button>
+    <div className="min-h-screen bg-base-200 p-4">
+      {/* Section Header */}
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold">{section.name}</h1>
+        <p className="text-gray-600">Manage items for this section.</p>
+      </div>
+
+      {/* Section Items */}
+      {items.length > 0 ? (
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((item) => (
+            <li
+              key={item.id}
+              className="card card-bordered bg-base-100 shadow-md"
+            >
+              <div className="card-body">
+                <h3 className="card-title text-lg">{item.content}</h3>
+                <p className="text-sm">{item.description}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-gray-600">No items found for this section.</p>
+      )}
+
+      {/* Add New Item */}
+      <div className="mt-6">
+        <button className="btn btn-primary">Add New Item</button>
+      </div>
     </div>
   );
 };
