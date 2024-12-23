@@ -1,12 +1,5 @@
 import { NextResponse } from "next/server";
-import mysql from "mysql2/promise";
-
-const db = mysql.createPool({
-  host: "localhost",
-  user: "your_db_user",
-  password: "your_db_pass",
-  database: "jobs_cms",
-});
+import db from "@/utils/db";
 
 export async function POST(req) {
   const { section_id, content } = await req.json();

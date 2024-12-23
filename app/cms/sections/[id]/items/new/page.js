@@ -27,20 +27,27 @@ const AddItemPage = () => {
   };
 
   return (
-    <div>
-      <h1>Add New Item to Section</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Item Content</label>
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            required
-          ></textarea>
-        </div>
-        {error && <p className="error">{error}</p>}
-        <button type="submit">Add Item</button>
-      </form>
+    <div className="flex flex-col items-center justify-center min-h-screen ">
+      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold text-center mb-6">Add New Item</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="form-control mb-4">
+            <label className="label">
+              <span className="label-text">Item Content</span>
+            </label>
+            <textarea
+              className="textarea textarea-bordered h-24"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              required
+            ></textarea>
+          </div>
+          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+          <button type="submit" className="btn btn-primary w-full">
+            Add Item
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
