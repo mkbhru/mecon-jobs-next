@@ -27,23 +27,28 @@ const AddItemPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen ">
-      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
+    <div className="flex w-full min-h-screen items-center justify-center px-4 l-2">
+      <div className="flex flex-col w-full max-w-lg p-6 rounded-lg shadow-lg md:max-w-3xl lg:max-w-4xl">
         <h1 className="text-2xl font-bold text-center mb-6">Add New Item</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="w-full">
           <div className="form-control mb-4">
             <label className="label">
-              <span className="label-text">Item Content</span>
+              <span className="label-text text-base font-medium">
+                Item Content
+              </span>
             </label>
             <textarea
-              className="textarea textarea-bordered h-24"
+              className="textarea textarea-bordered w-full h-24 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               required
             ></textarea>
           </div>
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-          <button type="submit" className="btn btn-primary w-full">
+          <button
+            type="submit"
+            className="btn btn-primary w-full py-2 px-4 text-white bg-blue-600 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500"
+          >
             Add Item
           </button>
         </form>

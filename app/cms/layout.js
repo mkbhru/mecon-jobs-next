@@ -20,7 +20,7 @@ export default function CmsLayout({ children }) {
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full z-50 bg-white overflow-auto">
+      <div className="fixed top-0 left-0 w-full z-50 overflow-auto">
         {/* Local Navbar */}
         <div className="navbar bg-primary text-primary-content">
           <Link href="/cms">
@@ -44,7 +44,7 @@ export default function CmsLayout({ children }) {
         </div>
       </div>
       {/* Main CMS Content */}
-      <main className="p-16 relative top-0 left-0 w-full bg-white">
+      <main className="">
         {children}
       </main>
     </>

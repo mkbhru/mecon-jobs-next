@@ -31,8 +31,8 @@ const AddSection = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-200 p-4">
-      <div className="card bg-base-100 shadow-lg p-4 max-w-md mx-auto">
+    <div className="min-h-screen bg-base-200 p-4 flex items-center ">
+      <div className="card bg-base-100 shadow-lg p-4 max-w-md mx-auto flex-1 w-2/3">
         <h2 className="text-2xl font-bold mb-4">Add New Section</h2>
         {error && (
           <div className="alert alert-error mb-4">
@@ -44,11 +44,11 @@ const AddSection = () => {
             <label className="label">
               <span className="label-text">Section Name</span>
             </label>
-            <input
+            <textarea
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="input input-bordered"
+              className="textarea textarea-bordered w-full h-24 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter section name"
               required
             />
