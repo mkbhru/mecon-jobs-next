@@ -12,12 +12,14 @@
     "@tailwindcss/typography": "^0.5.15",
     "bcryptjs": "^2.4.3",
     "daisyui": "^4.12.22",
+    "formidable": "^3.5.2",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.5",
     "next": "15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-icons": "^5.4.0"
+    "react-icons": "^5.4.0",
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

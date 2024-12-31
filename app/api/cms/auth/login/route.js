@@ -4,13 +4,9 @@ import { NextResponse } from "next/server";
 import mysql from "mysql2/promise";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import db from "@/utils/db";
 
 // Database connection setup
-const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  database: "jobs_cms",
-});
 
 export async function POST(req) {
   const { email, password } = await req.json();

@@ -3,8 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Loading from "@/app/components/Loading";
+import Link from "next/link";
 
-const SectionItemsPage = () => {
+const SectionItemsPage = ({params}) => {
   const { id } = useParams(); // Use the `useParams` hook to get the `id`
   const [items, setItems] = useState([]);
   const [section, setSection] = useState({});
@@ -47,7 +48,7 @@ const SectionItemsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-base-200 p-4">
+    <div className="min-h-screen  p-4">
       {/* Section Header */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold">{section.name}</h1>
@@ -60,7 +61,7 @@ const SectionItemsPage = () => {
           {items.map((item) => (
             <li
               key={item.id}
-              className="card card-bordered bg-base-100 shadow-md"
+              className="card card-bordered  shadow-md"
             >
               <div className="card-body">
                 <h3 className="card-title text-lg">{item.content}</h3>
@@ -75,7 +76,9 @@ const SectionItemsPage = () => {
 
       {/* Add New Item */}
       <div className="mt-6">
-        <button className="btn btn-primary">Add New Item</button>
+        <Link href={`/cms/sections/${id}/items/new`} className="btn btn-primary">
+          Add New Item
+        </Link>
       </div>
     </div>
   );
