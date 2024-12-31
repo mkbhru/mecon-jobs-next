@@ -42,8 +42,7 @@ const FrontendPage = () => {
                 >
                   <div className="flex justify-between w-full items-center">
                     <h3 className="text-xl font-semibold">{item.content}</h3>
-                    {/* {item.pdf_url && ( */}
-                    {(
+                    {item.pdf_url && (
                       <a
                         href={item.pdf_url}
                         download
