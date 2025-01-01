@@ -8,6 +8,7 @@ const EditItemPage = () => {
   const { id, item_id } = useParams();
   const [item, setItem] = useState(null);
   const [content, setContent] = useState("");
+  const [pdf_url, setPdfUrl] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -21,6 +22,7 @@ const EditItemPage = () => {
         const data = await response.json();
         setItem(data);
         setContent(data.content);
+        setPdfUrl(data.pdf_url);
       } catch (err) {
         console.error("Error fetching item:", err);
         setError("Failed to load item details.");
@@ -98,6 +100,18 @@ const EditItemPage = () => {
               required
             />
           </div>
+          <div className="flex justify-end">
+            {pdf_url && (
+              <a
+                className="btn btm-primary"
+                href={pdf_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View PDF
+              </a>
+            )}
+          </div>
           <div className="flex justify-end p-2">
             <button
               type="button"
@@ -112,14 +126,13 @@ const EditItemPage = () => {
           </div>
           <div className="flex justify-end p-4">
             <button
-            type="button"
-            className="btn btn-error"
-            onClick={handleDelete}
-          >
-            Delete this Advertisement
-          </button>
+              type="button"
+              className="btn btn-error"
+              onClick={handleDelete}
+            >
+              Delete this Advertisement
+            </button>
           </div>
-          
         </form>
       </div>
     </div>
