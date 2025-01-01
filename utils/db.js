@@ -7,10 +7,16 @@ const db = mysql.createPool({
   // user: process.env.DB_USER,
   // password: process.env.DB_PASSWORD,
   // database: process.env.DB_NAME,
-  host: "localhost",
-  port: 3306,
-  user: "root",
-  password: "rootpassword",
+  // host: "localhost",
+  // port: 3306,
+  // user: "root",
+  // password: "rootpassword",
+  // database: "jobs_cms",
+
+  host: "mysql-12597ac8-manishmpib-e39d.g.aivencloud.com",
+  port: 28682,
+  user: "avnadmin",
+  password: "AVNS_8AqbwFtQj3tjh3GPcrH",
   database: "jobs_cms",
 });
 // console.log(process.env.DB_HOST);

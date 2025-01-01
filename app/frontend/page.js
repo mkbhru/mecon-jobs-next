@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Loading from "../components/Loading";
+import { isMobile } from "react-device-detect";
 
 const FrontendPage = () => {
   const [sections, setSections] = useState([]);
@@ -43,14 +44,26 @@ const FrontendPage = () => {
                 >
                   <div className="flex justify-between w-full items-center">
                     <h3 className="text-xl font-semibold">{item.content}</h3>
-                    {item.pdf_url && (
+                    {!isMobile && item.pdf_url && (
                       <a
                         href={item.pdf_url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn btn-outline btn-primary ml-4"
                       >
-                        Download PDF
+                        DOWNLOAD
+                      </a>
+                    )}
+                  </div>
+                  <div className="flex justify-end">
+                    {isMobile && item.pdf_url && (
+                      <a
+                        href={item.pdf_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-outline btn-primary ml-4 p-2 mt-4"
+                      >
+                        DOWNLOAD
                       </a>
                     )}
                   </div>
