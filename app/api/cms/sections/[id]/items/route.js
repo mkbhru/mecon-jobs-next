@@ -15,7 +15,8 @@ export async function GET(req, context) {
     }
 
     // Query the database for items belonging to the section with the given `id`
-    const query = "SELECT * FROM section_items WHERE section_id = ?";
+    const query =
+      "SELECT * FROM section_items WHERE section_id = ? Order By id DESC";
     const [rows] = await db.execute(query, [id]);
 
 

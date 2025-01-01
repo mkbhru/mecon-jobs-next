@@ -15,13 +15,13 @@ import db from "@/utils/db";
 export async function GET() {
   try {
     // Query to fetch sections and their items
-    const [sections] = await db.query("SELECT * FROM sections");
+    const [sections] = await db.query("SELECT * FROM sections Order By id DESC");
     const sectionsWithItems = [];
 
     // Fetch items for each section
     for (const section of sections) {
       const [items] = await db.query(
-        "SELECT * FROM section_items WHERE section_id = ?",
+        "SELECT * FROM section_items WHERE section_id = ? Order By id DESC",
         [section.id]
       );
       sectionsWithItems.push({

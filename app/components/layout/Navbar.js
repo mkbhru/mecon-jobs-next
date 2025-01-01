@@ -16,8 +16,8 @@ const Navbar = () => {
             className="w-16 h-16"
           />
           <div>
-            <h1 className="text-xl font-bold text-blue-700">MECON LIMITED</h1>
-            <p className="text-sm text-gray-600">A GOVT. OF INDIA ENTERPRISE</p>
+            <h1 className="text-2xl font-bold text-blue-700">MECON LIMITED</h1>
+            <h4 className="font-bold">A GOVT. OF INDIA ENTERPRISE</h4>
           </div>
         </div>
 
@@ -42,14 +42,14 @@ const Navbar = () => {
         {/* Right Section */}
         <div className="flex items-center space-x-4">
           {/* Search Bar */}
-          <div className="relative">
+          {/* <div className="relative">
             <input
               type="text"
               placeholder="Search..."
               className="border rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             <button className="absolute right-3 top-2 text-gray-500">🔍</button>
-          </div>
+          </div> */}
           {/* Logos */}
           <div className="flex space-x-4">
             <Image
@@ -62,6 +62,20 @@ const Navbar = () => {
             <Image
               src="/harekkaam.jpg"
               alt="Har Ek Kaam Desh Ke Naam"
+              width={64}
+              height={32}
+              className="w-16 h-8"
+            />
+            <Image
+              src="/logoakm.png"
+              alt="azadi ka amritmahotsav"
+              width={64}
+              height={32}
+              className="w-16 h-8"
+            />
+            <Image
+              src="/swach-bharat.jpg"
+              alt="swach bharat"
               width={64}
               height={32}
               className="w-16 h-8"

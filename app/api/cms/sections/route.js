@@ -49,7 +49,7 @@ export async function GET(req) {
     }
 
     // Fetch sections from the database
-    const query = "SELECT * FROM sections";
+    const query = "SELECT * FROM sections order by id DESC";
     const [rows] = await db.execute(query);
 
     // Return success response with sections data
