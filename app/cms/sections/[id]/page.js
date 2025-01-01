@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import Loading from "@/app/components/Loading";
 import Link from "next/link";
 
-const SectionItemsPage = ({params}) => {
+const SectionItemsPage = () => {
   const { id } = useParams(); // Use the `useParams` hook to get the `id`
   const [items, setItems] = useState([]);
   const [section, setSection] = useState({});
@@ -52,20 +52,46 @@ const SectionItemsPage = ({params}) => {
       {/* Section Header */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold">{section.name}</h1>
-        <p className="text-gray-600">Manage items for this section.</p>
+        <p className="text-gray-500 font-bold">
+          Manage items for this section.
+        </p>
       </div>
-
+      <div className="mt-6 p-4">
+        <Link
+          href={`/cms/sections/${id}/items/new`}
+          className="btn btn-primary"
+        >
+          Add New Advertisement
+        </Link>
+      </div>
       {/* Section Items */}
       {items.length > 0 ? (
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
-            <li
-              key={item.id}
-              className="card card-bordered  shadow-md"
-            >
-              <div className="card-body">
+            <li key={item.id} className="card card-bordered shadow-md">
+              <div className="card-body flex flex-col justify-between">
                 <h3 className="card-title text-lg">{item.content}</h3>
-                <p className="text-sm">{item.description}</p>
+                <div className="flex flex-row justify-end">
+                  {item.pdf_url && (
+                    <div className="mt-auto mr-3">
+                      <a
+                        href={item.pdf_url}
+                        download
+                        className="btn btn-neutral "
+                      >
+                        PDF
+                      </a>
+                    </div>
+                  )}
+                  <div className=" mt-auto ">
+                    <Link
+                      href={`/cms/sections/${id}/items/${item.id}/edit`}
+                      className="btn bg-green-500 "
+                    >
+                      Edit Advertisement
+                    </Link>
+                  </div>
+                </div>
               </div>
             </li>
           ))}
@@ -73,13 +99,6 @@ const SectionItemsPage = ({params}) => {
       ) : (
         <p className="text-gray-600">No items found for this section.</p>
       )}
-
-      {/* Add New Item */}
-      <div className="mt-6">
-        <Link href={`/cms/sections/${id}/items/new`} className="btn btn-primary">
-          Add New Item
-        </Link>
-      </div>
     </div>
   );
 };

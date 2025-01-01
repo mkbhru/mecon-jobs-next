@@ -46,11 +46,15 @@ const CmsDashboard = () => {
   return (
     <div className="min-h-screen  bg-base-200 p-4">
       {/* Header */}
-      
 
       {/* Main Content */}
       <div className="card bg-base-100 shadow-lg rounded-lg p-4">
-        <h2 className="text-2xl font-bold mb-4">Sections</h2>
+        <h2 className="text-2xl font-bold mb-4"> Manage Sections</h2>
+        <div className="mt-6 p-4">
+          <Link href="/cms/sections/new" className="btn btn-accent">
+            Add New Section
+          </Link>
+        </div>
 
         {sections.length > 0 ? (
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -59,14 +63,18 @@ const CmsDashboard = () => {
                 key={section.id}
                 className="card card-bordered bg-base-100 shadow-md"
               >
-                <div className="card-body">
-                  <h3 className="card-title text-lg">{section.name}</h3>
-                  <Link
-                    href={`/cms/sections/${section.id}`}
-                    className="btn btn-primary btn-sm mt-4"
-                  >
-                    Manage Section
-                  </Link>
+                <div className="card-body flex flex-col">
+                  <div>
+                    <h3 className="card-title text-lg">{section.name}</h3>
+                  </div>
+                  <div className="mt-auto flex justify-end">
+                    <Link
+                      href={`/cms/sections/${section.id}`}
+                      className="btn btn-primary btn-sm mt-4"
+                    >
+                      Manage Section
+                    </Link>
+                  </div>
                 </div>
               </li>
             ))}
@@ -74,12 +82,6 @@ const CmsDashboard = () => {
         ) : (
           <p>No sections available. Add a new section to get started.</p>
         )}
-
-        <div className="mt-6">
-          <Link href="/cms/sections/new" className="btn btn-accent">
-            Add New Section
-          </Link>
-        </div>
       </div>
     </div>
   );

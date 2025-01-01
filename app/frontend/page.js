@@ -29,11 +29,11 @@ const FrontendPage = () => {
   }
 
   return (
-    <div className="p-4">
+    <div className="container mx-auto mt-8">
       {sections.length > 0 ? (
         sections.map((section) => (
           <div key={section.id} className="section mb-6 card p-4 bg-slate-200">
-            <h2 className="text-2xl font-semibold mb-2">{section.name}</h2>
+            <h2 className="text-2xl font-semibold mb-2 text-blue-600">{section.name}</h2>
             <ul className="list-none space-y-2">
               {section.items.map((item, index) => (
                 <li
