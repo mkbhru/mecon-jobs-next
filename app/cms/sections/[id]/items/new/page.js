@@ -8,32 +8,32 @@ const AddItemPage = () => {
   const [content, setContent] = useState("");
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
+  const [isPdfUploaded, setIsPdf] = useState(false);
   const [message, setMessage] = useState("");
   const router = useRouter();
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
 
-    // const selectedFile = e.target.files[0];
-    // if (selectedFile && selectedFile.type === "application/pdf") {
-    //   setFile(selectedFile);
-    //   setError(""); // Clear any previous error
-    // } else {
-    //   setError("Please upload a valid PDF file.");
-    // }
+    if (selectedFile && selectedFile.type === "application/pdf") {
+      setFile(selectedFile);
+      setIsPdf(true); // Set isPdfUploaded to true if a valid PDF is uploaded
+      setError(""); // Clear any previous error
+    } else {
+      setFile(null);
+      setIsPdf(false); // Set isPdfUploaded to false if no valid PDF is uploaded
+      setError("Please upload a valid PDF file.");
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!file) {
-      setError("Please upload a PDF file.");
-      return;
-    }
     const formData = new FormData();
     formData.append("section_id", id);
     formData.append("content", content);
-    formData.append("file", file);
+    formData.append("file", file || ""); // If no file, append an empty string
+    formData.append("isPdfUploaded", isPdfUploaded);
 
     try {
       const response = await fetch("/api/cms/items", {
@@ -47,7 +47,6 @@ const AddItemPage = () => {
       } else {
         setError(data.message || "Error adding item");
       }
-      console.log(error);
     } catch (err) {
       console.error("Error during submission:", err);
       setError("An unexpected error occurred. Please try again.");
@@ -79,7 +78,7 @@ const AddItemPage = () => {
           <div className="form-control mb-4">
             <label className="label">
               <span className="label-text text-base font-medium">
-                Upload PDF
+                Upload PDF (Optional)
               </span>
             </label>
             <input
@@ -87,7 +86,6 @@ const AddItemPage = () => {
               accept="application/pdf"
               onChange={handleFileChange}
               className="file-input file-input-bordered w-full"
-              required
             />
           </div>
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}

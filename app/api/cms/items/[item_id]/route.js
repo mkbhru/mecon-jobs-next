@@ -2,13 +2,13 @@ import { NextResponse } from "next/server";
 import db from "@/utils/db";
 
 export async function PUT(req, { params }) {
-  const { item_id } = params;
+  const { item_id } = await params;
 
   try {
-    const { content} = await req.json();
+    const { content } = await req.json();
 
     // Validate input
-    if (!content ) {
+    if (!content) {
       return NextResponse.json(
         { error: "Content is are required" },
         { status: 400 }
@@ -32,7 +32,7 @@ export async function PUT(req, { params }) {
   }
 }
 export async function GET(req, { params }) {
-  const { item_id } = params;
+  const { item_id } = await params;
 
   try {
     // Validate input
@@ -62,7 +62,7 @@ export async function GET(req, { params }) {
 }
 
 export async function DELETE(req, { params }) {
-  const { item_id } = params;
+  const { item_id } = await params;
 
   try {
     // Validate input
