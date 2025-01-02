@@ -60,7 +60,7 @@ const Navbar = () => {
               className="w-12 h-12"
             />
             <Image
-              src="/harekkaam.jpg"
+              src="/hek.jpg"
               alt="Har Ek Kaam Desh Ke Naam"
               width={64}
               height={32}
