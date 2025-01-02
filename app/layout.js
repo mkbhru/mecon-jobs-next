@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <Header />
           <div className=" min-h-screen w-full flex items-center justify-center">
-            <main className="w-2/3">{children}</main>
+            <main className="w-full bg-blue-50 ">{children}</main>
           </div>
           {/* <Footer /> */}
           <Footer2 />
