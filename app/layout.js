@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
+import Footer2 from "./components/layout/Footer2";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,15 +24,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="">
-          <Navbar/>
+          <Navbar />
           <Header />
           <div className=" min-h-screen w-full flex items-center justify-center">
             <main className="w-2/3">{children}</main>
           </div>
-          <Footer />
+          {/* <Footer /> */}
+          <Footer2 />
         </div>
       </body>
     </html>
