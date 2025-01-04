@@ -7,7 +7,7 @@ import StripSection from "./StripSection";
 const FrontendPage = () => {
   const [sections, setSections] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     // Fetch the sections data from the API
     const fetchSections = async () => {
