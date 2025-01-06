@@ -52,6 +52,7 @@ const FrontendPage = () => {
                       <h3 className="text-xl font-semibold">{item.content}</h3>
                       {!isMobile && item.pdf_url && (
                         <a
+                        
                           href={item.pdf_url}
                           target="_blank"
                           rel="noopener noreferrer"
