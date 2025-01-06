@@ -9,30 +9,31 @@ const FrontendPage = () => {
   const [loading, setLoading] = useState(true);
 
   const extractFileInfo = (pdf_url) => {
-    const regex = /\/(\d{4})\/(\d{2})\/(\d{2})\/(\d{14}_[^\/]+\.pdf)/;
-    const matches = pdf_url.match(regex);
-    if (matches) {
-      return {
-        year: matches[1],
-        month: matches[2],
-        day: matches[3],
-        filename: matches[4],
-      };
+    const parts = pdf_url.split('/');
+    const filenameWithExt = parts.pop();
+    const [year, month, day] = parts.slice(-3);
+
+    if (year && month && day && filenameWithExt.endsWith('.pdf')) {
+      const filename = filenameWithExt.slice(0, -4);
+      return { year, month, day, filename };
     }
+
+    console.log("No match");
     return null;
   };
 
-  const handleViewInNewTab = (item_id, pdf_url) => {
+  const handleViewInNewTab = (pdf_url) => {
     const fileInfo = extractFileInfo(pdf_url);
     if (fileInfo) {
       const { year, month, day, filename } = fileInfo;
       // Open the file in a new tab with the extracted info
       window.open(
-        `/api/download?file=${filename}`,
+        `/api/download?file=${filename}.pdf`,
         "_blank"
       );
     } else {
       alert("No file to view");
+      console.log(pdf_url, "pdf_url");
     }
   };
 
@@ -81,7 +82,7 @@ const FrontendPage = () => {
                       {!isMobile && item.pdf_url && (
                         <div
                           onClick={() =>
-                            handleViewInNewTab(item.id, item.pdf_url)
+                            handleViewInNewTab(item.pdf_url)
                           }
                           target="_blank"
                           rel="noopener noreferrer"

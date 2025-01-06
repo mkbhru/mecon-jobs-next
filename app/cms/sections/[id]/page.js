@@ -11,6 +11,18 @@ const SectionItemsPage = () => {
   const [section, setSection] = useState({});
   const [loading, setLoading] = useState(true);
 
+   
+
+   const handleViewInNewTab = (file) => {
+     if (file) {
+       // Open the file in a new tab with the extracted info
+       window.open(`/api/download?file=${file}`, "_blank");
+     } else {
+       alert("No file to view");
+       console.log(pdf_url, "pdf_url");
+     }
+   };
+
   useEffect(() => {
     if (!id) return;
 
@@ -73,14 +85,13 @@ const SectionItemsPage = () => {
                 <h3 className="card-title text-lg">{item.content}</h3>
                 <div className="flex flex-row justify-end">
                   {item.pdf_url && (
-                    <div className="mt-auto mr-3">
-                      <a
-                        href={item.pdf_url}
-                        download
-                        className="btn btn-neutral "
-                      >
-                        PDF
-                      </a>
+                    <div
+                      onClick={() =>
+                        handleViewInNewTab(item.pdf_url.split("/").pop())
+                      }
+                      className="mt-auto mr-3 btn btn-neutral "
+                    >
+                      PDF
                     </div>
                   )}
                   <div className=" mt-auto ">

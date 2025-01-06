@@ -8,18 +8,17 @@ export async function POST(req) {
   const file = formData.get("file") || null; // Safely get the file field
   const section_id = formData.get("section_id");
   const content = formData.get("content");
+
   const now = new Date();
-  const timestamp =
-    now
-      .toISOString()
-      .replace(/[-T:.Z]/g, "")
-      .slice(0, 8) +"_" +
-    now.getHours().toString().padStart(2, "0") +
-    now.getMinutes().toString().padStart(2, "0") +
-    now.getSeconds().toString().padStart(2, "0");
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const day = String(now.getDate()).padStart(2, "0");
+  const timestamp =
+    `${year}${month}${day}` +
+    "_" +
+    now.getHours().toString().padStart(2, "0") +
+    now.getMinutes().toString().padStart(2, "0") +
+    now.getSeconds().toString().padStart(2, "0");
 
   let pdf_url = null; // Initialize pdf_url as null
 
