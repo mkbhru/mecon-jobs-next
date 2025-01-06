@@ -7,7 +7,6 @@ import StripSection from "./StripSection";
 const FrontendPage = () => {
   const [sections, setSections] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [item_id, setItemId] = useState(null);
 
   const extractFileInfo = (pdf_url) => {
     const regex = /\/(\d{4})\/(\d{2})\/(\d{2})\/(\d{14}_[^\/]+\.pdf)/;
