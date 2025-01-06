@@ -10,6 +10,8 @@ const AddItemPage = () => {
   const [error, setError] = useState("");
   const [isPdfUploaded, setIsPdf] = useState(false);
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Loading state for button
+  const [progress, setProgress] = useState(0); // Progress state for fake upload animation
   const router = useRouter();
 
   const handleFileChange = (e) => {
@@ -28,29 +30,47 @@ const AddItemPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Start the loading state
+    setProgress(0); // Reset progress bar
+    let fakeProgress = 0;
 
-    const formData = new FormData();
-    formData.append("section_id", id);
-    formData.append("content", content);
-    formData.append("file", file || ""); // If no file, append an empty string
-    formData.append("isPdfUploaded", isPdfUploaded);
-
-    try {
-      const response = await fetch("/api/cms/items", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setMessage("Item added successfully");
-        router.push(`/cms/sections/${id}`);
+    const fakeProgressInterval = setInterval(() => {
+      if (fakeProgress < 100) {
+        fakeProgress += 2; // Increment progress by 2% every interval
+        setProgress(fakeProgress); // Update progress state
       } else {
-        setError(data.message || "Error adding item");
+        clearInterval(fakeProgressInterval); // Stop the progress animation
       }
-    } catch (err) {
-      console.error("Error during submission:", err);
-      setError("An unexpected error occurred. Please try again.");
-    }
+    }, 100); // Set the interval time to 100ms for smooth progress update
+
+    // Simulate 5-second delay for the upload
+    setTimeout(async () => {
+      const formData = new FormData();
+      formData.append("section_id", id);
+      formData.append("content", content);
+      formData.append("file", file || ""); // If no file, append an empty string
+      formData.append("isPdfUploaded", isPdfUploaded);
+
+      try {
+        const response = await fetch("/api/cms/items/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setMessage("Item added successfully");
+          router.push(`/cms/sections/${id}`);
+        } else {
+          setError(data.message || "Error adding item");
+        }
+      } catch (err) {
+        console.error("Error during submission:", err);
+        setError("An unexpected error occurred. Please try again.");
+      } finally {
+        setIsLoading(false); // Reset loading state after the submission
+        setProgress(0); // Reset progress bar after the upload
+      }
+    }, 6000); // Delay submission by 5 seconds
   };
 
   return (
@@ -90,11 +110,30 @@ const AddItemPage = () => {
           </div>
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
           {message && <p className="text-green-500 text-sm mb-4">{message}</p>}
+
+          {/* Progress Bar */}
+          {isLoading && (
+            <div className="mb-4">
+              <div className="w-full bg-gray-300 rounded-full h-2.5">
+                <div
+                  className="bg-blue-600 h-2.5 rounded-full"
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
+              <p className="text-sm text-gray-600 text-center mt-2">
+                Uploading... {progress}%
+              </p>
+            </div>
+          )}
+
           <button
             type="submit"
-            className="btn btn-primary w-full py-2 px-4 text-white bg-blue-600 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500"
+            className={`btn btn-primary w-full py-2 px-4 text-white bg-blue-600 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500 ${
+              isLoading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={isLoading} // Disable button while loading
           >
-            Add Item
+            {isLoading ? "UPLOADING...." : "Add Item"} {/* Show loading text */}
           </button>
         </form>
       </div>
