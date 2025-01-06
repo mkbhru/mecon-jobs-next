@@ -4,6 +4,7 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
 import Footer2 from "./components/layout/Footer2";
+import { ToastContainer } from "react-toastify";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -27,9 +28,12 @@ export default function RootLayout({ children }) {
       // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="">
-          <Navbar />
-          <Header />
-          <div className=" min-h-screen w-full flex items-center justify-center">
+          {/* <div className="flex fixed top-0 left-0 w-full"> */}
+            <Navbar />
+            {/* <Header /> */}
+          {/* </div> */}
+          <ToastContainer />
+          <div className=" min-h-screen w-full flex items-center justify-center ">
             <main className="w-full bg-blue-50 ">{children}</main>
           </div>
           {/* <Footer /> */}

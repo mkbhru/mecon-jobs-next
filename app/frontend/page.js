@@ -17,7 +17,7 @@ const FrontendPage = () => {
         year: matches[1],
         month: matches[2],
         day: matches[3],
-        filename: matches[4].replace(".pdf", ""),
+        filename: matches[4],
       };
     }
     return null;
@@ -29,7 +29,7 @@ const FrontendPage = () => {
       const { year, month, day, filename } = fileInfo;
       // Open the file in a new tab with the extracted info
       window.open(
-        `/api/download?file=${filename}&year=${year}&month=${month}&day=${day}`,
+        `/api/download?file=${filename}`,
         "_blank"
       );
     } else {

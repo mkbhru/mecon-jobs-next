@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import Header from "./Header";
 
 const Navbar = () => {
   return (
-    <header className="bg-white border-b shadow-sm">
+    <header className="bg-white border-b shadow-sm sticky top-0 z-50">
       <div className="container mx-auto flex flex-wrap justify-between items-center p-4">
         {/* Left Section */}
         <div className="flex items-center space-x-4">
@@ -83,6 +84,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      <Header />
     </header>
   );
 };

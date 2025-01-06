@@ -13,7 +13,7 @@ export async function POST(req) {
     now
       .toISOString()
       .replace(/[-T:.Z]/g, "")
-      .slice(0, 8) +
+      .slice(0, 8) +"_" +
     now.getHours().toString().padStart(2, "0") +
     now.getMinutes().toString().padStart(2, "0") +
     now.getSeconds().toString().padStart(2, "0");
