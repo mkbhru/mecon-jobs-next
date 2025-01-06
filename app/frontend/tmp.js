@@ -1,141 +1,120 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import Loading from "../components/Loading";
+import { isMobile } from "react-device-detect";
+import StripSection from "./StripSection";
 
-const EditItemPage = () => {
-  const router = useRouter();
-  const { id, item_id } = useParams();
-  const [item, setItem] = useState(null);
-  const [content, setContent] = useState("");
-  const [pdf_url, setPdfUrl] = useState("");
-  const [error, setError] = useState("");
+const FrontendPage = () => {
+  const [sections, setSections] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [item_id, setItemId] = useState(null);
+
+  const extractFileInfo = (pdf_url) => {
+    const regex = /\/(\d{4})\/(\d{2})\/(\d{2})\/(\d{14}_[^\/]+\.pdf)/;
+    const matches = pdf_url.match(regex);
+    if (matches) {
+      return {
+        year: matches[1],
+        month: matches[2],
+        day: matches[3],
+        filename: matches[4],
+      };
+    }
+    return null;
+  };
+
+  const handleViewInNewTab = (item_id, pdf_url) => {
+    const fileInfo = extractFileInfo(pdf_url);
+    if (fileInfo) {
+      const { year, month, day, filename } = fileInfo;
+      // Open the file in a new tab with the extracted info
+      window.open(
+        `/api/download?file=${item_id}&filename=${filename}&year=${year}&month=${month}&day=${day}`,
+        "_blank"
+      );
+    } else {
+      alert("No file to view");
+    }
+  };
 
   useEffect(() => {
-    // Fetch the current item data
-    const fetchItem = async () => {
+    // Fetch the sections data from the API
+    const fetchSections = async () => {
       try {
-        const response = await fetch(`/api/cms/items/${item_id}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch item details");
-        }
+        const response = await fetch("/api/frontend/sections");
         const data = await response.json();
-        setItem(data);
-        setContent(data.content);
-        setPdfUrl(data.pdf_url);
-      } catch (err) {
-        console.error("Error fetching item:", err);
-        setError("Failed to load item details.");
+        setSections(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching sections:", error);
+        setLoading(false);
       }
     };
 
-    fetchItem();
-  }, [item_id]);
+    fetchSections();
+  }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch(`/api/cms/items/${item_id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content }),
-      });
-
-      if (response.ok) {
-        router.push(`/cms/sections/${id}`);
-      } else {
-        const data = await response.json();
-        setError(data.error || "Failed to update item");
-      }
-    } catch (err) {
-      console.error("Error updating item:", err);
-      setError("An error occurred while updating the item.");
-    }
-  };
-
-  const handleDelete = async () => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this item?"
-    );
-
-    if (!confirmed) return;
-
-    try {
-      const response = await fetch(`/api/cms/items/${item_id}`, {
-        method: "DELETE",
-      });
-
-      if (response.ok) {
-        router.push(`/cms/sections/${id}`);
-      } else {
-        const data = await response.json();
-        setError(data.error || "Failed to delete item");
-      }
-    } catch (err) {
-      console.error("Error deleting item:", err);
-      setError("An error occurred while deleting the item.");
-    }
-  };
-
-  if (!item) {
-    return <p>Loading...</p>;
+  if (loading) {
+    return <Loading />;
   }
 
   return (
-    <div className="min-h-screen bg-base-200 p-4">
-      <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow">
-        <h1 className="text-2xl font-bold mb-4">Edit Item</h1>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">
-              Advertisement
-            </label>
-            <input
-              type="text"
-              className="input input-bordered w-full"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              required
-            />
-          </div>
-          <div className="flex justify-end">
-            {pdf_url && (
-              <a
-                className="btn btm-primary"
-                href={pdf_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View PDF
-              </a>
-            )}
-          </div>
-          <div className="flex justify-end p-2">
-            <button
-              type="button"
-              className="btn btn-secondary mr-2"
-              onClick={() => router.push(`/cms/sections/${id}`)}
+    <>
+      <StripSection />
+      <div className="container mx-auto mt-8">
+        {sections.length > 0 ? (
+          sections.map((section) => (
+            <div
+              key={section.id}
+              className="section mb-6 card p-6 bg-slate-200"
             >
-              Cancel
-            </button>
-            <button type="submit" className="btn btn-primary mr-2">
-              Save Changes
-            </button>
-          </div>
-          <div className="flex justify-end p-4">
-            <button
-              type="button"
-              className="btn btn-error"
-              onClick={handleDelete}
-            >
-              Delete this Advertisement
-            </button>
-          </div>
-        </form>
+              <h2 className="text-2xl font-semibold mb-2 text-blue-600">
+                {section.name}
+              </h2>
+              <ul className="list-none space-y-2">
+                {section.items.map((item, index) => (
+                  <li
+                    key={item.id}
+                    className="card shadow-md p-4 flex justify-between items-center bg-gray-300"
+                  >
+                    <div className="flex justify-between w-full items-center">
+                      <h3 className="text-xl font-semibold">{item.content}</h3>
+                      {!isMobile && item.pdf_url && (
+                        <div
+                          onClick={() =>
+                            handleViewInNewTab(item.id, item.pdf_url)
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-outline btn-primary ml-4"
+                        >
+                          DOWNLOAD
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex justify-end">
+                      {isMobile && item.pdf_url && (
+                        <a
+                          href={item.pdf_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-outline btn-primary ml-4 p-2 mt-4"
+                        >
+                          DOWNLOAD
+                        </a>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        ) : (
+          <p>No sections available.</p>
+        )}
       </div>
-    </div>
+    </>
   );
 };
 
-export default EditItemPage;
+export default FrontendPage;

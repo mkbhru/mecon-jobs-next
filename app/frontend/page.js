@@ -7,7 +7,36 @@ import StripSection from "./StripSection";
 const FrontendPage = () => {
   const [sections, setSections] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+  const [item_id, setItemId] = useState(null);
+
+  const extractFileInfo = (pdf_url) => {
+    const regex = /\/(\d{4})\/(\d{2})\/(\d{2})\/(\d{14}_[^\/]+\.pdf)/;
+    const matches = pdf_url.match(regex);
+    if (matches) {
+      return {
+        year: matches[1],
+        month: matches[2],
+        day: matches[3],
+        filename: matches[4].replace(".pdf", ""),
+      };
+    }
+    return null;
+  };
+
+  const handleViewInNewTab = (item_id, pdf_url) => {
+    const fileInfo = extractFileInfo(pdf_url);
+    if (fileInfo) {
+      const { year, month, day, filename } = fileInfo;
+      // Open the file in a new tab with the extracted info
+      window.open(
+        `/api/download?file=${filename}&year=${year}&month=${month}&day=${day}`,
+        "_blank"
+      );
+    } else {
+      alert("No file to view");
+    }
+  };
+
   useEffect(() => {
     // Fetch the sections data from the API
     const fetchSections = async () => {
@@ -51,15 +80,16 @@ const FrontendPage = () => {
                     <div className="flex justify-between w-full items-center">
                       <h3 className="text-xl font-semibold">{item.content}</h3>
                       {!isMobile && item.pdf_url && (
-                        <a
-                        
-                          href={item.pdf_url}
+                        <div
+                          onClick={() =>
+                            handleViewInNewTab(item.id, item.pdf_url)
+                          }
                           target="_blank"
                           rel="noopener noreferrer"
                           className="btn btn-outline btn-primary ml-4"
                         >
                           DOWNLOAD
-                        </a>
+                        </div>
                       )}
                     </div>
                     <div className="flex justify-end">
