@@ -83,21 +83,21 @@ const EditItemPage = () => {
 
   return (
     <div className="min-h-screen bg-base-200 p-4">
-      <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow">
+      <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow my-16">
         <h1 className="text-2xl font-bold mb-4">Edit Item</h1>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2">
-              Advertisement
+              Notice/Corrigendum/etc Description
             </label>
-            <input
-              type="text"
-              className="input input-bordered w-full"
+            
+            <textarea
+              className="textarea textarea-bordered w-full h-24 font-medium"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               required
-            />
+            ></textarea>
           </div>
           <div className="flex justify-end">
             {pdf_url && (
@@ -119,17 +119,17 @@ const EditItemPage = () => {
             >
               Cancel
             </button>
-            <button type="submit" className="btn btn-primary mr-2">
+            <button type="submit" className="btn btn-primary mr-2 bg-green-500">
               Save Changes
             </button>
           </div>
           <div className="flex justify-end p-4">
             <button
               type="button"
-              className="btn btn-error"
+              className="btn btn-error bg-red-500"
               onClick={handleDelete}
             >
-              Delete this Advertisement
+              DELETE
             </button>
           </div>
         </form>

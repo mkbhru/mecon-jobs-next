@@ -1,20 +1,9 @@
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "./components/layout/Header";
-import Footer from "./components/layout/Footer";
-import Navbar from "./components/layout/Navbar";
 import Footer2 from "./components/layout/Footer2";
 import { ToastContainer } from "react-toastify";
+import CombinedHeader from "./components/layout/combinedHeader";
 
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
 
 export const metadata = {
   title: "Recruitment Portal | MECON Limited",
@@ -28,7 +17,7 @@ export default function RootLayout({ children }) {
       // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="">
-            <Navbar />
+          <CombinedHeader/>
           <ToastContainer />
           <div className=" min-h-screen w-full flex items-center justify-center">
             <main className="w-full bg-blue-50 ">{children}</main>

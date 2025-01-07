@@ -25,6 +25,7 @@ function Footer() {
           <a
             href="https://www.facebook.com/meconranchi/"
             className="text-gray-300 hover:text-blue-500 transition"
+            target="_blank"
             aria-label="Facebook"
           >
             <FaFacebookF className="w-6 h-6" />
@@ -32,6 +33,7 @@ function Footer() {
           <a
             href="https://www.youtube.com/channel/UCqBdP1-rDC70B5YpzG8vSVA"
             className="text-gray-300 hover:text-red-500 transition"
+            target="_blank"
             aria-label="YouTube"
           >
             <FaYoutube className="w-6 h-6" />
@@ -39,6 +41,7 @@ function Footer() {
           <a
             href="https://www.instagram.com/meconranchi"
             className="text-gray-300 hover:text-pink-500 transition"
+            target="_blank"
             aria-label="Instagram"
           >
             <FaInstagram className="w-6 h-6" />
@@ -46,6 +49,7 @@ function Footer() {
           <a
             href="https://twitter.com/meconlimited"
             className="text-gray-300 hover:text-blue-400 transition"
+            target="_blank"
             aria-label="Twitter"
           >
             <FaTwitter className="w-6 h-6" />
@@ -53,6 +57,7 @@ function Footer() {
           <a
             href="https://www.linkedin.com/company/mecon-limited-india"
             className="text-gray-300 hover:text-blue-700 transition"
+            target="_blank"
             aria-label="LinkedIn"
           >
             <FaLinkedinIn className="w-6 h-6" />

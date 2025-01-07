@@ -44,15 +44,18 @@ const CmsDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen  bg-base-200 p-4">
+    <div className="min-h-screen bg-base-300 p-4 rounded-md">
       {/* Header */}
 
       {/* Main Content */}
-      <div className="card bg-base-100 shadow-lg rounded-lg p-4">
-        <h2 className="text-2xl font-bold mb-4"> Manage Sections</h2>
+      <div className="card bg-base-200 shadow-lg rounded-lg p-4">
+        <h2 className="text-2xl font-bold mb-4">
+          {" "}
+          Manage Advertisements - Dashboard
+        </h2>
         <div className="mt-6 p-4">
           <Link href="/cms/sections/new" className="btn btn-accent">
-            Add New Section
+            Create New Advertisement/Notice
           </Link>
         </div>
 
@@ -72,7 +75,7 @@ const CmsDashboard = () => {
                       href={`/cms/sections/${section.id}`}
                       className="btn btn-primary btn-sm mt-4"
                     >
-                      Manage Section
+                      Manage Advertisement/Notice
                     </Link>
                   </div>
                 </div>

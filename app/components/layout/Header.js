@@ -1,6 +1,12 @@
 "use client";
 import React from "react";
-import { FaTwitter, FaInstagram, FaLinkedin, FaHome } from "react-icons/fa";
+import {
+  FaTwitter,
+  FaInstagram,
+  FaLinkedin,
+  FaHome,
+  FaExternalLinkAlt,
+} from "react-icons/fa";
 import logo from "../../../public/wall.jpg";
 import { usePathname } from "next/navigation";
 import LogoutButton from "../cms/LogoutButton";
@@ -8,9 +14,11 @@ import GoToDashboardButton from "../cms/GoToDashboardButton";
 
 function Header() {
   const router = usePathname();
-  const headerText =
-    router === "/cms" ? "CMS Dashboard" : "MECON Career Opportunities";
   const isCmsRoute = router.startsWith("/cms");
+  const headerText = isCmsRoute
+    ? "MECON Careers Management System"
+    : "MECON Career Opportunities";
+
   const isLoginRoute = router === "/cms/login";
   return (
     <>
@@ -21,7 +29,16 @@ function Header() {
               <div>
                 <>
                   {isCmsRoute ? (
-                    <GoToDashboardButton />
+                    <>
+                      <GoToDashboardButton />
+                      <button
+                        onClick={() => window.open("/", "_blank")}
+                        className="btn btn-primary font-bold ml-2"
+                      >
+                        <FaExternalLinkAlt />
+                        Preview Career Page
+                      </button>
+                    </>
                   ) : (
                     <a
                       href="http://www.meconlimited.co.in/"
@@ -43,6 +60,7 @@ function Header() {
               <a
                 href="https://twitter.com/meconlimited"
                 rel="noopener noreferrer"
+                target="_blank"
                 className="btn btn-ghost"
               >
                 <FaTwitter className="text-xl" />
@@ -51,6 +69,7 @@ function Header() {
               <a
                 href="https://www.instagram.com/meconranchi"
                 rel="noopener noreferrer"
+                target="_blank"
                 className="btn btn-ghost"
               >
                 <FaInstagram className="text-xl" />
@@ -59,6 +78,7 @@ function Header() {
               <a
                 href="https://www.linkedin.com/company/mecon-limited-india"
                 rel="noopener noreferrer"
+                target="_blank"
                 className="btn btn-ghost"
               >
                 <FaLinkedin className="text-xl" />

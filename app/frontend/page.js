@@ -9,11 +9,11 @@ const FrontendPage = () => {
   const [loading, setLoading] = useState(true);
 
   const extractFileInfo = (pdf_url) => {
-    const parts = pdf_url.split('/');
+    const parts = pdf_url.split("/");
     const filenameWithExt = parts.pop();
     const [year, month, day] = parts.slice(-3);
 
-    if (year && month && day && filenameWithExt.endsWith('.pdf')) {
+    if (year && month && day && filenameWithExt.endsWith(".pdf")) {
       const filename = filenameWithExt.slice(0, -4);
       return { year, month, day, filename };
     }
@@ -27,10 +27,7 @@ const FrontendPage = () => {
     if (fileInfo) {
       const { year, month, day, filename } = fileInfo;
       // Open the file in a new tab with the extracted info
-      window.open(
-        `/api/download?file=${filename}.pdf`,
-        "_blank"
-      );
+      window.open(`/api/download?file=${filename}.pdf`, "_blank");
     } else {
       alert("No file to view");
       console.log(pdf_url, "pdf_url");
@@ -60,7 +57,9 @@ const FrontendPage = () => {
 
   return (
     <>
+    {sections.length > 0 && (
       <StripSection />
+    )}
       <div className="container mx-auto mt-8">
         {sections.length > 0 ? (
           sections.map((section) => (
@@ -75,18 +74,16 @@ const FrontendPage = () => {
                 {section.items.map((item, index) => (
                   <li
                     key={item.id}
-                    className="card shadow-md p-4 flex justify-between items-center bg-gray-300"
+                    className="card  shadow-md p-4 flex justify-between items-center bg-gray-300 rounded-xl min-h-4"
                   >
                     <div className="flex justify-between w-full items-center">
-                      <h3 className="text-xl font-semibold">{item.content}</h3>
+                      <h3 className="text-base p-0 font-semibold">{item.content}</h3>
                       {!isMobile && item.pdf_url && (
                         <div
-                          onClick={() =>
-                            handleViewInNewTab(item.pdf_url)
-                          }
+                          onClick={() => handleViewInNewTab(item.pdf_url)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="btn btn-outline btn-primary ml-4"
+                          className="btn btn-primary ml-4 btn-sm"
                         >
                           DOWNLOAD
                         </div>
@@ -110,7 +107,9 @@ const FrontendPage = () => {
             </div>
           ))
         ) : (
-          <p>No sections available.</p>
+          <div className="card h-40  bg-base-100 shadow-md p-22 mb-7 flex justify-center items-center">
+            <h3 className="text-center text-4xl font-medium">Please refresh page again...💭</h3>
+          </div>
         )}
       </div>
     </>

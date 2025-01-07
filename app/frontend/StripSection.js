@@ -23,9 +23,10 @@ const StripSection = ({ speed = 20, height = 200 }) => {
     "/images/image6.jpg",
   ];
 
+
   return (
     <div
-      className="relative overflow-hidden bg-gray-300"
+      className="relative overflow-hidden bg-gray-300 "
       style={{ height: `${height}px` }}
     >
       <div

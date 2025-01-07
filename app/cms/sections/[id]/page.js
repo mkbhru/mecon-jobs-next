@@ -60,20 +60,20 @@ const SectionItemsPage = () => {
   }
 
   return (
-    <div className="min-h-screen  p-4">
+    <div className="min-h-screen p-4 bg-base-300 rounded-lg">
       {/* Section Header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold">{section.name}</h1>
+        <h1 className="text-2xl font-bold">{section.name}</h1>
         <p className="text-gray-500 font-bold">
-          Manage items for this section.
+          Manage items for this Advertisement
         </p>
       </div>
       <div className="mt-6 p-4">
         <Link
           href={`/cms/sections/${id}/items/new`}
-          className="btn btn-primary"
+          className="btn btn-primary font-bold"
         >
-          Add New Advertisement
+          Create New Notification/Corrigendum/etc
         </Link>
       </div>
       {/* Section Items */}
@@ -89,7 +89,7 @@ const SectionItemsPage = () => {
                       onClick={() =>
                         handleViewInNewTab(item.pdf_url.split("/").pop())
                       }
-                      className="mt-auto mr-3 btn btn-neutral "
+                      className="mt-auto mr-3 btn btn-neutral rounded-xl"
                     >
                       PDF
                     </div>
@@ -97,11 +97,27 @@ const SectionItemsPage = () => {
                   <div className=" mt-auto ">
                     <Link
                       href={`/cms/sections/${id}/items/${item.id}/edit`}
-                      className="btn bg-green-500 "
+                      className="btn bg-green-500 rounded-xl text-white"
                     >
-                      Edit Advertisement
+                      Edit
                     </Link>
                   </div>
+                </div>
+                <div className="flex justify-end">
+                  <h1 className="font-bold">Created At: </h1>
+                  {new Date(item.created_at)
+                    .toLocaleString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false,
+                    })
+                    .replace(",", "")
+                    .replace(" ", "-")
+                    .replace(" ", "-")
+                    .replace("at", " ")}
                 </div>
               </div>
             </li>

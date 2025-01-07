@@ -2,6 +2,7 @@
 /** @type {import('tailwindcss').Config} */
 import daisyui from "daisyui";
 import typography from "@tailwindcss/typography";
+
 export default {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -14,11 +15,15 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      // Override the btn-primary color to black
+      colors: {
+        "btn-primary": "black",
+      },
     },
   },
   plugins: [typography, daisyui],
   daisyui: {
-    themes: ["light", "dark"], // Ensure 'light' is the first theme
+    themes: ["cupcake"], // Ensure 'light' is the first theme
     darkTheme: "light", // Optional, specifies the dark theme explicitly
   },
 };

@@ -78,8 +78,8 @@ const AddItemPage = () => {
   };
 
   return (
-    <div className="flex w-full min-h-screen items-center justify-center px-4">
-      <div className="flex flex-col w-full max-w-lg p-6 rounded-lg shadow-lg">
+    <div className="flex w-full min-h-screen items-center justify-center px-4 bg-base-200 rounded-lg">
+      <div className="flex flex-col w-full max-w-lg p-6 rounded-lg shadow-lg bg-base-100">
         <h1 className="text-2xl font-bold text-center mb-6">Add New Item</h1>
         <form
           onSubmit={handleSubmit}
@@ -89,11 +89,11 @@ const AddItemPage = () => {
           <div className="form-control mb-4">
             <label className="label">
               <span className="label-text text-base font-medium">
-                Item Content
+                Notice/Corrigendum/etc Description
               </span>
             </label>
             <textarea
-              className="textarea textarea-bordered w-full h-24"
+              className="textarea textarea-bordered w-full h-24 font-medium"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               required
