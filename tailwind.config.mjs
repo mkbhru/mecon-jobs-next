@@ -23,7 +23,7 @@ export default {
   },
   plugins: [typography, daisyui],
   daisyui: {
-    themes: ["cupcake"], // Ensure 'light' is the first theme
+    themes: ["winter"], // Ensure 'light' is the first theme
     darkTheme: "light", // Optional, specifies the dark theme explicitly
   },
 };
