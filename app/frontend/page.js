@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import { isMobile } from "react-device-detect";
 import StripSection from "./StripSection";
+import MessageCard from "../components/helper/MessageCard";
 
 const FrontendPage = () => {
   const [sections, setSections] = useState([]);
@@ -57,11 +58,10 @@ const FrontendPage = () => {
 
   return (
     <>
-    {sections.length > 0 && (
-      <StripSection />
-    )}
-      <div className="container mx-auto mt-8">
-        {sections.length > 0 ? (
+      {sections.length > 0 && <StripSection />}
+      <div className="container mx-auto mt-8 min-h-screen">
+        {sections.length > 10 ? 
+        (
           sections.map((section) => (
             <div
               key={section.id}
@@ -77,7 +77,9 @@ const FrontendPage = () => {
                     className="card  shadow-md p-4 flex justify-between items-center bg-gray-300 rounded-xl min-h-4"
                   >
                     <div className="flex justify-between w-full items-center">
-                      <h3 className="text-base p-0 font-semibold">{item.content}</h3>
+                      <h3 className="text-base p-0 font-semibold">
+                        {item.content}
+                      </h3>
                       {!isMobile && item.pdf_url && (
                         <div
                           onClick={() => handleViewInNewTab(item.pdf_url)}
@@ -107,9 +109,11 @@ const FrontendPage = () => {
             </div>
           ))
         ) : (
-          <div className="card h-40  bg-base-100 shadow-md p-22 mb-7 flex justify-center items-center">
-            <h3 className="text-center text-4xl font-medium">Please refresh page again...💭</h3>
-          </div>
+          <MessageCard>
+            <h3 className="text-center text-4xl font-medium">
+              Please refresh page again...💭
+            </h3>
+          </MessageCard>
         )}
       </div>
     </>

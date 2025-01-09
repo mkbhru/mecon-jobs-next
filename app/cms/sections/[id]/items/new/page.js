@@ -51,7 +51,7 @@ const AddItemPage = () => {
             clearInterval(fakeProgress); // Stop fake progress
             return 100;
           }
-          return prevProgress + 5; // Increment progress by 10%
+          return prevProgress + 10; // Increment progress by 10%
         });
       }, 100); // Simulate progress every 300ms
 
@@ -59,13 +59,13 @@ const AddItemPage = () => {
         
         // Redirect after progress reaches 100%
         setTimeout(() => {
-          toast.success("File Uploaded successfully!", {
+          toast.success("Item added Successfully 👍", {
             position: "top-right",
-            autoClose: 8000,
+            autoClose: 15000,
             theme: "light",
           });
           router.push(`/cms/sections/${id}`);
-        }, 3500); // Wait for a short delay before redirect
+        }, 1500); // Wait for a short delay before redirect
       } else {
         const data = await response.json();
         setError(data.message || "Error adding item. Please try again.");
@@ -89,7 +89,7 @@ const AddItemPage = () => {
           <div className="form-control mb-4">
             <label className="label">
               <span className="label-text text-base font-medium">
-                Notice/Corrigendum/etc Description
+                Item (Notification/Corrigendum/etc) Description
               </span>
             </label>
             <textarea

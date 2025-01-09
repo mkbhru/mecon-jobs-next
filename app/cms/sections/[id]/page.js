@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Loading from "@/app/components/Loading";
 import Link from "next/link";
+import MessageCard from "@/app/components/helper/MessageCard";
 
 const SectionItemsPage = () => {
   const { id } = useParams(); // Use the `useParams` hook to get the `id`
@@ -11,17 +12,36 @@ const SectionItemsPage = () => {
   const [section, setSection] = useState({});
   const [loading, setLoading] = useState(true);
 
-   
+  const handleViewInNewTab = (file) => {
+    if (file) {
+      // Open the file in a new tab with the extracted info
+      window.open(`/api/download?file=${file}`, "_blank");
+    } else {
+      alert("No file to view");
+      console.log(pdf_url, "pdf_url");
+    }
+  };
 
-   const handleViewInNewTab = (file) => {
-     if (file) {
-       // Open the file in a new tab with the extracted info
-       window.open(`/api/download?file=${file}`, "_blank");
-     } else {
-       alert("No file to view");
-       console.log(pdf_url, "pdf_url");
-     }
-   };
+  //  useEffect(() => {
+  //     // Fetch the current item data
+  //     const fetchItem = async () => {
+  //       try {
+  //         const response = await fetch(`/api/cms/items/${item_id}`);
+  //         if (!response.ok) {
+  //           throw new Error("Failed to fetch item details");
+  //         }
+  //         const data = await response.json();
+  //         setItem(data);
+  //         setContent(data.content);
+  //         setPdfUrl(data.pdf_url);
+  //       } catch (err) {
+  //         console.error("Error fetching item:", err);
+  //         setError("Failed to load item details.");
+  //       }
+  //     };
+  
+  //     fetchItem();
+  //   }, [item_id]);
 
   useEffect(() => {
     if (!id) return;
@@ -84,12 +104,21 @@ const SectionItemsPage = () => {
               <div className="card-body flex flex-col justify-between">
                 <h3 className="card-title text-lg">{item.content}</h3>
                 <div className="flex flex-row justify-end">
+                  {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
+                  {item.pdf_url && (
+                    <Link
+                      href={`/cms/sections/${id}/items/${item.id}/edit`}
+                      className="mt-auto mr-3 btn btn-neutral bg-black rounded-xl"
+                    >
+                      {item.is_visible ? "visible" : "hidden"}
+                    </Link>
+                  )}
                   {item.pdf_url && (
                     <div
                       onClick={() =>
                         handleViewInNewTab(item.pdf_url.split("/").pop())
                       }
-                      className="mt-auto mr-3 btn btn-neutral rounded-xl"
+                      className="mt-auto mr-3 btn btn-secondary bg-blue-700 rounded-xl"
                     >
                       PDF
                     </div>
@@ -124,7 +153,9 @@ const SectionItemsPage = () => {
           ))}
         </ul>
       ) : (
-        <p className="text-gray-600">No items found for this section.</p>
+        <MessageCard>
+          No Items (Notification/Corrigendum/etc) are created!
+        </MessageCard>
       )}
     </div>
   );

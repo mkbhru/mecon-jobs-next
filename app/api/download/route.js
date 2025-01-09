@@ -34,7 +34,7 @@ export async function GET(request) {
     });
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "File not found", error: error.message },
+      { success: false, message: "File not found ", error: "Happy Hunting" },
       { status: 404 }
     );
   }

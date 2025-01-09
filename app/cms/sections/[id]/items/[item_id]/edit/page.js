@@ -9,6 +9,7 @@ const EditItemPage = () => {
   const [content, setContent] = useState("");
   const [pdf_url, setPdfUrl] = useState("");
   const [error, setError] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     // Fetch the current item data
@@ -22,6 +23,7 @@ const EditItemPage = () => {
         setItem(data);
         setContent(data.content);
         setPdfUrl(data.pdf_url);
+        setIsVisible(data.is_visible);
       } catch (err) {
         console.error("Error fetching item:", err);
         setError("Failed to load item details.");
@@ -38,7 +40,7 @@ const EditItemPage = () => {
       const response = await fetch(`/api/cms/items/${item_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content }),
+        body: JSON.stringify({ content, isVisible }),
       });
 
       if (response.ok) {
@@ -91,7 +93,7 @@ const EditItemPage = () => {
             <label className="block text-sm font-medium mb-2">
               Notice/Corrigendum/etc Description
             </label>
-            
+
             <textarea
               className="textarea textarea-bordered w-full h-24 font-medium"
               value={content}
@@ -99,31 +101,31 @@ const EditItemPage = () => {
               required
             ></textarea>
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-end p-4">
             {pdf_url && (
-              <a
-                className="btn btm-primary"
-                href={pdf_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View PDF
-              </a>
+              <div className="flex space-x-2">
+                <a
+                  className="btn btn-primary bg-green-500"
+                  href={pdf_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View PDF
+                </a>
+              </div>
             )}
           </div>
-          <div className="flex justify-end p-2">
+          <div className="flex space-x-2 justify-end p-4">
             <button
               type="button"
-              className="btn btn-secondary mr-2"
-              onClick={() => router.push(`/cms/sections/${id}`)}
+              className="btn btn-secondary"
+              onClick={() => setIsVisible(!isVisible)}
             >
-              Cancel
-            </button>
-            <button type="submit" className="btn btn-primary mr-2 bg-green-500">
-              Save Changes
+              {isVisible ? "Hide" : "Show"}
             </button>
           </div>
-          <div className="flex justify-end p-4">
+          <div className="flex justify-between items-center p-2 mt-16">
+            {/* Delete Button on the Left */}
             <button
               type="button"
               className="btn btn-error bg-red-500"
@@ -131,7 +133,30 @@ const EditItemPage = () => {
             >
               DELETE
             </button>
+
+            {/* Other Buttons on the Right */}
+            <div className="flex space-x-2">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => router.push(`/cms/sections/${id}`)}
+              >
+                Cancel
+              </button>
+              <button type="submit" className="btn btn-primary bg-green-500">
+                Save Changes
+              </button>
+            </div>
           </div>
+          {/* <div className="flex justify-end p-4">
+            <button
+              type="button"
+              className="btn btn-error bg-red-500"
+              onClick={handleDelete}
+            >
+              DELETE
+            </button>
+          </div> */}
         </form>
       </div>
     </div>
