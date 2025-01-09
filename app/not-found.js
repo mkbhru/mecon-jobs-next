@@ -1,18 +1,23 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function NotFound() {
   const router = useRouter();
-  const timer = 900000;
+  const timer = 50000;
+  const [count, setCount] = useState(timer)
+
   useEffect(() => {
+    while (count) {
+      setCount(count - 1000)
+    }
     const timeout = setTimeout(() => {
       router.push("/");
     }, timer); // Redirect to home after 5 seconds
 
     return () => clearTimeout(timeout);
-  }, [router]);
+  }, [router,count]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen ">
@@ -22,7 +27,7 @@ export default function NotFound() {
           Oops! The page you're looking for doesn't exist.
         </p>
         <p className="text-sm text-gray-500 mt-2">
-          Redirecting to the homepage in {timer/1000} seconds...
+          Redirecting to the homepage in {count/1000} seconds...
         </p>
         <button
           className="btn btn-primary mt-6 animate-pulse"

@@ -58,7 +58,6 @@ const CmsDashboard = () => {
             Create New Advertisement/Notice
           </Link>
         </div>
-
         {/* Visible Sections */}
         <h3 className="text-xl font-bold mt-6 mb-4">
           Visible Advertisements/Notices
@@ -68,7 +67,7 @@ const CmsDashboard = () => {
             {visibleSections.map((section) => (
               <li
                 key={section.id}
-                className="card card-bordered bg-base-100 shadow-md"
+                className="card card-bordered bg-green-100 shadow-md"
               >
                 <div className="card-body flex flex-col">
                   <h3 className="card-title text-lg">{section.name}</h3>
@@ -97,7 +96,6 @@ const CmsDashboard = () => {
         ) : (
           <p>No visible advertisements/notices.</p>
         )}
-
         {/* Hidden Sections */}
         <h3 className="text-xl font-bold mt-6 mb-4">
           Hidden Advertisements/Notices
@@ -107,7 +105,7 @@ const CmsDashboard = () => {
             {hiddenSections.map((section) => (
               <li
                 key={section.id}
-                className="card card-bordered bg-base-100 shadow-md"
+                className="card card-bordered bg-red-100 shadow-md"
               >
                 <div className="card-body flex flex-col">
                   <h3 className="card-title text-lg">{section.name}</h3>
@@ -136,9 +134,12 @@ const CmsDashboard = () => {
         ) : (
           <p>No hidden advertisements/notices.</p>
         )}
+
       </div>
     </div>
+
   );
+  
 };
 
 export default CmsDashboard;

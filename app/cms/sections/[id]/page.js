@@ -63,7 +63,7 @@ const SectionItemsPage = () => {
   const hiddenItems = items.filter((item) => !item.is_visible);
 
   return (
-    <div className="min-h-screen p-4 bg-base-300 rounded-lg">
+    <div className="min-h-screen p-4 bg-base-300  rounded-lg">
       {/* Section Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold">{section.name}</h1>
@@ -86,18 +86,11 @@ const SectionItemsPage = () => {
         {visibleItems.length > 0 ? (
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {visibleItems.map((item) => (
-              <li key={item.id} className="card card-bordered shadow-md">
+              <li key={item.id} className="card card-bordered shadow-md bg-green-100">
                 <div className="card-body flex flex-col justify-between">
                   <h3 className="card-title text-lg">{item.content}</h3>
                   <div className="flex flex-row justify-end mt-6">
-                    {/* {item.pdf_url && (
-                      <Link
-                        href={`/cms/sections/${id}/items/${item.id}/edit`}
-                        className="mt-auto mr-3 btn btn-neutral bg-black rounded-xl"
-                      >
-                        Visible
-                      </Link>
-                    )} */}
+                    
                     {item.pdf_url && (
                       <div
                         onClick={() =>
@@ -136,7 +129,7 @@ const SectionItemsPage = () => {
         {hiddenItems.length > 0 ? (
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {hiddenItems.map((item) => (
-              <li key={item.id} className="card card-bordered shadow-md">
+              <li key={item.id} className="card card-bordered shadow-md bg-red-100">
                 <div className="card-body flex flex-col justify-between">
                   <h3 className="card-title text-lg">{item.content}</h3>
                   <div className="flex flex-row justify-end mt-6">

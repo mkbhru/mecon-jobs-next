@@ -44,7 +44,7 @@ const LoginPage = () => {
   return (
     <div className="login-container">
       <div>
-        <div className="bg-base-100 min-h-screen flex items-center justify-center">
+        <div className="bg-base-200 rounded-lg min-h-screen flex items-center justify-center">
           <div className="card lg:card-side bg-base-100 shadow-xl max-w-4xl w-full">
             <figure className="relative w-full h-96">
               <Image

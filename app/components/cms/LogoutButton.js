@@ -13,7 +13,7 @@ export default function LogoutButton() {
     <>
       {router !== "/cms/login" && (
         <button
-          className="btn bg-red-600 text-white font-bold "
+          className="btn btn-primary bg-red-500 font-bold ml-2"
           onClick={() => {
             document.cookie =
               "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";

@@ -27,11 +27,9 @@ const FrontendPage = () => {
     const fileInfo = extractFileInfo(pdf_url);
     if (fileInfo) {
       const { year, month, day, filename } = fileInfo;
-      // Open the file in a new tab with the extracted info
       window.open(`/api/download?file=${filename}.pdf`, "_blank");
     } else {
       alert("No file to view");
-      console.log(pdf_url, "pdf_url");
     }
   };
 
@@ -77,9 +75,9 @@ const FrontendPage = () => {
                     className="card  shadow-md p-4 flex justify-between items-center bg-gray-300 rounded-xl min-h-4"
                   >
                     <div className="flex justify-between w-full items-center">
-                      <h3 className="text-base p-0 font-semibold">
+                      <h1 className="text-base font-semiboldcm">
                         {item.content}
-                      </h3>
+                      </h1>
                       {!isMobile && item.pdf_url && (
                         <div
                           onClick={() => handleViewInNewTab(item.pdf_url)}

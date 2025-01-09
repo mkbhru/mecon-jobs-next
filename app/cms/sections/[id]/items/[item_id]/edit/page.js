@@ -33,6 +33,16 @@ const EditItemPage = () => {
     fetchItem();
   }, [item_id]);
 
+
+ const handleViewInNewTab = (file) => {
+   if (file) {
+     // Open the file in a new tab with the extracted info
+     window.open(`/api/download?file=${file}`, "_blank");
+   } else {
+     alert("No file to view");
+   }
+ };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -102,21 +112,23 @@ const EditItemPage = () => {
             ></textarea>
           </div>
           <div className="flex justify-end p-4">
-            {pdf_url && (
-              <div className="flex space-x-2">
-                <a
-                  className="btn btn-primary bg-green-500"
-                  href={pdf_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View PDF
-                </a>
+            
+            {item.pdf_url && (
+              <div
+                onClick={() =>
+                  handleViewInNewTab(item.pdf_url.split("/").pop())
+                }
+                className="btn btn-primary "
+              >
+                PDF
               </div>
             )}
           </div>
           <div className="flex justify-end p-4">
+            {/* Toggle Switch */}
+            <h1 className="text-xl font-bold mr-4">Visibility:</h1>
             <button
+              type="button" // Prevents the button from submitting the form
               onClick={() => setIsVisible(!isVisible)}
               className={`w-14 h-8 flex items-center rounded-full p-1 ${
                 isVisible ? "bg-green-500" : "bg-red-500"
@@ -133,7 +145,7 @@ const EditItemPage = () => {
             {/* Delete Button on the Left */}
             <button
               type="button"
-              className="btn btn-error bg-red-500"
+              className="btn btn-primary bg-red-500"
               onClick={handleDelete}
             >
               DELETE
@@ -143,7 +155,7 @@ const EditItemPage = () => {
             <div className="flex space-x-2">
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-primary"
                 onClick={() => router.push(`/cms/sections/${id}`)}
               >
                 Cancel

@@ -15,7 +15,7 @@ import db from "@/utils/db";
 export async function GET() {
   try {
     // Query to fetch sections and their items
-    const [sections] = await db.query("SELECT * FROM sections where is_visible = 1 Order By sort_order ");
+    const [sections] = await db.query("SELECT * FROM sections where is_visible = 1 Order By sort_order DESC");
     const sectionsWithItems = [];
 
     // Fetch items for each section

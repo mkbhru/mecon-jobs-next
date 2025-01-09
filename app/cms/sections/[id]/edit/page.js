@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Loading from "@/app/components/Loading";
 
-const EditItemPage = () => {
+const EditSectionPage = () => {
   const router = useRouter();
   // const { id, item_id } = useParams();
   const { id } = useParams();
@@ -174,4 +174,4 @@ const EditItemPage = () => {
   );
 };
 
-export default EditItemPage;
+export default EditSectionPage;
