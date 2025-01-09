@@ -54,7 +54,7 @@ const CmsDashboard = () => {
           Manage Advertisements - Dashboard
         </h2>
         <div className="mt-6 p-4">
-          <Link href="/cms/sections/new" className="btn btn-accent">
+          <Link href="/cms/sections/new" className="btn btn-primary">
             Create New Advertisement/Notice
           </Link>
         </div>

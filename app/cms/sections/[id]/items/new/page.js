@@ -104,6 +104,7 @@ const AddItemPage = () => {
               <span className="label-text text-base font-medium">
                 Upload PDF (Optional)
               </span>
+              <p className="text-red-500">* upload limited 5MB</p>
             </label>
             <input
               type="file"

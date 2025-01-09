@@ -76,7 +76,7 @@ const SectionItemsPage = () => {
           href={`/cms/sections/${id}/items/new`}
           className="btn btn-primary font-bold"
         >
-          Create New Notification/Corrigendum/etc
+          Create New Item (Notification/Corrigendum/etc)
         </Link>
       </div>
 
@@ -126,7 +126,7 @@ const SectionItemsPage = () => {
             ))}
           </ul>
         ) : (
-          <MessageCard>No visible items found.</MessageCard>
+          <MessageCard>No visible items</MessageCard>
         )}
       </div>
 
@@ -176,7 +176,7 @@ const SectionItemsPage = () => {
             ))}
           </ul>
         ) : (
-          <MessageCard>No hidden items found.</MessageCard>
+          <MessageCard>No hidden items</MessageCard>
         )}
       </div>
     </div>
