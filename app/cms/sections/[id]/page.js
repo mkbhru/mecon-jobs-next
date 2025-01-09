@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Loading from "@/app/components/Loading";
 import Link from "next/link";
+import MessageCard from "@/app/components/helper/MessageCard";
+import FormattedDate from "@/app/components/helper/FormattedDate";
 
 const SectionItemsPage = () => {
   const { id } = useParams(); // Use the `useParams` hook to get the `id`
@@ -11,17 +13,14 @@ const SectionItemsPage = () => {
   const [section, setSection] = useState({});
   const [loading, setLoading] = useState(true);
 
-   
-
-   const handleViewInNewTab = (file) => {
-     if (file) {
-       // Open the file in a new tab with the extracted info
-       window.open(`/api/download?file=${file}`, "_blank");
-     } else {
-       alert("No file to view");
-       console.log(pdf_url, "pdf_url");
-     }
-   };
+  const handleViewInNewTab = (file) => {
+    if (file) {
+      // Open the file in a new tab with the extracted info
+      window.open(`/api/download?file=${file}`, "_blank");
+    } else {
+      alert("No file to view");
+    }
+  };
 
   useEffect(() => {
     if (!id) return;
@@ -59,8 +58,12 @@ const SectionItemsPage = () => {
     return <Loading />;
   }
 
+  // Filter visible and hidden items
+  const visibleItems = items.filter((item) => item.is_visible);
+  const hiddenItems = items.filter((item) => !item.is_visible);
+
   return (
-    <div className="min-h-screen p-4 bg-base-300 rounded-lg">
+    <div className="min-h-screen p-4 bg-base-300  rounded-lg">
       {/* Section Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold">{section.name}</h1>
@@ -73,59 +76,102 @@ const SectionItemsPage = () => {
           href={`/cms/sections/${id}/items/new`}
           className="btn btn-primary font-bold"
         >
-          Create New Notification/Corrigendum/etc
+          Create New Item (Notification/Corrigendum/etc)
         </Link>
       </div>
-      {/* Section Items */}
-      {items.length > 0 ? (
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((item) => (
-            <li key={item.id} className="card card-bordered shadow-md">
-              <div className="card-body flex flex-col justify-between">
-                <h3 className="card-title text-lg">{item.content}</h3>
-                <div className="flex flex-row justify-end">
-                  {item.pdf_url && (
-                    <div
-                      onClick={() =>
-                        handleViewInNewTab(item.pdf_url.split("/").pop())
-                      }
-                      className="mt-auto mr-3 btn btn-neutral rounded-xl"
-                    >
-                      PDF
+
+      {/* Visible Items Section */}
+      <div className="mt-8">
+        <h2 className="text-xl font-bold mb-4">Visible Items</h2>
+        {visibleItems.length > 0 ? (
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {visibleItems.map((item) => (
+              <li key={item.id} className="card card-bordered shadow-md bg-green-100">
+                <div className="card-body flex flex-col justify-between">
+                  <h3 className="card-title text-lg">{item.content}</h3>
+                  <div className="flex flex-row justify-end mt-6">
+                    
+                    {item.pdf_url && (
+                      <div
+                        onClick={() =>
+                          handleViewInNewTab(item.pdf_url.split("/").pop())
+                        }
+                        className="btn btn-primary btn-sm mr-4"
+                      >
+                        PDF
+                      </div>
+                    )}
+                    <div className="mt-auto">
+                      <Link
+                        href={`/cms/sections/${id}/items/${item.id}/edit`}
+                        className="btn btn-primary btn-sm"
+                      >
+                        Edit
+                      </Link>
                     </div>
-                  )}
-                  <div className=" mt-auto ">
-                    <Link
-                      href={`/cms/sections/${id}/items/${item.id}/edit`}
-                      className="btn bg-green-500 rounded-xl text-white"
-                    >
-                      Edit
-                    </Link>
+                  </div>
+                  <FormattedDate date={item.created_at} label="Created At" />
+                  <div className=" text-sm text-green-500 text-center font-bold flex justify-end">
+                    Status: Visible
                   </div>
                 </div>
-                <div className="flex justify-end">
-                  <h1 className="font-bold">Created At: </h1>
-                  {new Date(item.created_at)
-                    .toLocaleString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: false,
-                    })
-                    .replace(",", "")
-                    .replace(" ", "-")
-                    .replace(" ", "-")
-                    .replace("at", " ")}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <MessageCard>No visible items</MessageCard>
+        )}
+      </div>
+
+      {/* Hidden Items Section */}
+      <div className="mt-8">
+        <h2 className="text-xl font-bold mb-4">Hidden Items</h2>
+        {hiddenItems.length > 0 ? (
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {hiddenItems.map((item) => (
+              <li key={item.id} className="card card-bordered shadow-md bg-red-100">
+                <div className="card-body flex flex-col justify-between">
+                  <h3 className="card-title text-lg">{item.content}</h3>
+                  <div className="flex flex-row justify-end mt-6">
+                    {/* {item.pdf_url && (
+                      <Link
+                        href={`/cms/sections/${id}/items/${item.id}/edit`}
+                        className="mt-auto mr-3 btn btn-neutral bg-gray-500 rounded-xl"
+                      >
+                        Hidden
+                      </Link>
+                    )} */}
+                    {item.pdf_url && (
+                      <div
+                        onClick={() =>
+                          handleViewInNewTab(item.pdf_url.split("/").pop())
+                        }
+                        className="btn btn-primary btn-sm mr-4"
+                      >
+                        PDF
+                      </div>
+                    )}
+                    <div className="mt-auto">
+                      <Link
+                        href={`/cms/sections/${id}/items/${item.id}/edit`}
+                        className="btn btn-primary btn-sm"
+                      >
+                        Edit
+                      </Link>
+                    </div>
+                  </div>
+                  <FormattedDate date={item.created_at} label="Created At" />
+                  <div className=" text-sm text-red-500 text-center font-bold flex justify-end">
+                    Status: Hidden
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-gray-600">No items found for this section.</p>
-      )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <MessageCard>No hidden items</MessageCard>
+        )}
+      </div>
     </div>
   );
 };

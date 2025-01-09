@@ -6,10 +6,9 @@ const GoToDashboardButton = () => {
   };
   return (
     <>
-      <button className="btn btn-primary font-bold " onClick={handleClick}>
+      <button className="btn btn-primary font-bold" onClick={handleClick}>
         Dashboard
       </button>
-      
     </>
   );
 };

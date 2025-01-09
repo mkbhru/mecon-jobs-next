@@ -1,13 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import Loading from "@/app/components/Loading";
 
-const EditItemPage = () => {
+const EditSectionPage = () => {
   const router = useRouter();
-  const { id, item_id } = useParams();
+  // const { id, item_id } = useParams();
+  const { id } = useParams();
   const [item, setItem] = useState(null);
-  const [content, setContent] = useState("");
-  const [pdf_url, setPdfUrl] = useState("");
+  const [name, setName] = useState("");
+
   const [error, setError] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
@@ -15,14 +17,15 @@ const EditItemPage = () => {
     // Fetch the current item data
     const fetchItem = async () => {
       try {
-        const response = await fetch(`/api/cms/items/${item_id}`);
+        const response = await fetch(`/api/cms/sections/${id}`);
+        //
         if (!response.ok) {
           throw new Error("Failed to fetch item details");
         }
         const data = await response.json();
         setItem(data);
-        setContent(data.content);
-        setPdfUrl(data.pdf_url);
+
+        setName(data.name);
         setIsVisible(data.is_visible);
       } catch (err) {
         console.error("Error fetching item:", err);
@@ -31,30 +34,21 @@ const EditItemPage = () => {
     };
 
     fetchItem();
-  }, [item_id]);
-
-
- const handleViewInNewTab = (file) => {
-   if (file) {
-     // Open the file in a new tab with the extracted info
-     window.open(`/api/download?file=${file}`, "_blank");
-   } else {
-     alert("No file to view");
-   }
- };
+  }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`/api/cms/items/${item_id}`, {
+      const response = await fetch(`/api/cms/sections/${id}`, {
+        //
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content, isVisible }),
+        headers: { "name-Type": "application/json" },
+        body: JSON.stringify({ name, isVisible }),
       });
 
       if (response.ok) {
-        router.push(`/cms/sections/${id}`);
+        router.push(`/cms`);
       } else {
         const data = await response.json();
         setError(data.error || "Failed to update item");
@@ -90,40 +84,40 @@ const EditItemPage = () => {
   };
 
   if (!item) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   return (
     <div className="min-h-screen bg-base-200 p-4">
       <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow my-16">
-        <h1 className="text-2xl font-bold mb-4">Edit Item</h1>
+        <h1 className="text-2xl font-bold mb-4">Edit Advertisement</h1>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2">
-              Notice/Corrigendum/etc Description
+              Advertisement Description {id}
             </label>
 
             <textarea
               className="textarea textarea-bordered w-full h-24 font-medium"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
             ></textarea>
           </div>
-          <div className="flex justify-end p-4">
-            
-            {item.pdf_url && (
-              <div
-                onClick={() =>
-                  handleViewInNewTab(item.pdf_url.split("/").pop())
-                }
-                className="btn btn-primary "
-              >
-                PDF
+          {/* <div className="flex justify-end p-4">
+            {(
+              <div className="flex space-x-2">
+                <a
+                  className="btn btn-primary bg-green-500"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View PDF
+                </a>
               </div>
             )}
-          </div>
+          </div> */}
           <div className="flex justify-end p-4">
             {/* Toggle Switch */}
             <h1 className="text-xl font-bold mr-4">Visibility:</h1>
@@ -145,7 +139,7 @@ const EditItemPage = () => {
             {/* Delete Button on the Left */}
             <button
               type="button"
-              className="btn btn-primary bg-red-500"
+              className="btn btn-error bg-red-500 btn-disabled"
               onClick={handleDelete}
             >
               DELETE
@@ -155,8 +149,8 @@ const EditItemPage = () => {
             <div className="flex space-x-2">
               <button
                 type="button"
-                className="btn btn-primary"
-                onClick={() => router.push(`/cms/sections/${id}`)}
+                className="btn btn-secondary"
+                onClick={() => router.push(`/cms`)}
               >
                 Cancel
               </button>
@@ -180,4 +174,4 @@ const EditItemPage = () => {
   );
 };
 
-export default EditItemPage;
+export default EditSectionPage;
