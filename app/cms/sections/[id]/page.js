@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Loading from "@/app/components/Loading";
 import Link from "next/link";
 import MessageCard from "@/app/components/helper/MessageCard";
+import FormattedDate from "@/app/components/helper/FormattedDate";
 
 const SectionItemsPage = () => {
   const { id } = useParams(); // Use the `useParams` hook to get the `id`
@@ -88,21 +89,21 @@ const SectionItemsPage = () => {
               <li key={item.id} className="card card-bordered shadow-md">
                 <div className="card-body flex flex-col justify-between">
                   <h3 className="card-title text-lg">{item.content}</h3>
-                  <div className="flex flex-row justify-end">
-                    {item.pdf_url && (
+                  <div className="flex flex-row justify-end mt-6">
+                    {/* {item.pdf_url && (
                       <Link
                         href={`/cms/sections/${id}/items/${item.id}/edit`}
                         className="mt-auto mr-3 btn btn-neutral bg-black rounded-xl"
                       >
                         Visible
                       </Link>
-                    )}
+                    )} */}
                     {item.pdf_url && (
                       <div
                         onClick={() =>
                           handleViewInNewTab(item.pdf_url.split("/").pop())
                         }
-                        className="mt-auto mr-3 btn btn-secondary bg-blue-700 rounded-xl"
+                        className="btn btn-primary btn-sm mr-4"
                       >
                         PDF
                       </div>
@@ -110,27 +111,15 @@ const SectionItemsPage = () => {
                     <div className="mt-auto">
                       <Link
                         href={`/cms/sections/${id}/items/${item.id}/edit`}
-                        className="btn bg-green-500 rounded-xl text-white"
+                        className="btn btn-primary btn-sm"
                       >
                         Edit
                       </Link>
                     </div>
                   </div>
-                  <div className="flex justify-end">
-                    <h1 className="font-bold">Created At: </h1>
-                    {new Date(item.created_at)
-                      .toLocaleString("en-GB", {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: false,
-                      })
-                      .replace(",", "")
-                      .replace(" ", "-")
-                      .replace(" ", "-")
-                      .replace("at", " ")}
+                  <FormattedDate date={item.created_at} label="Created At" />
+                  <div className=" text-sm text-green-500 text-center font-bold flex justify-end">
+                    Status: Visible
                   </div>
                 </div>
               </li>
@@ -150,21 +139,21 @@ const SectionItemsPage = () => {
               <li key={item.id} className="card card-bordered shadow-md">
                 <div className="card-body flex flex-col justify-between">
                   <h3 className="card-title text-lg">{item.content}</h3>
-                  <div className="flex flex-row justify-end">
-                    {item.pdf_url && (
+                  <div className="flex flex-row justify-end mt-6">
+                    {/* {item.pdf_url && (
                       <Link
                         href={`/cms/sections/${id}/items/${item.id}/edit`}
                         className="mt-auto mr-3 btn btn-neutral bg-gray-500 rounded-xl"
                       >
                         Hidden
                       </Link>
-                    )}
+                    )} */}
                     {item.pdf_url && (
                       <div
                         onClick={() =>
                           handleViewInNewTab(item.pdf_url.split("/").pop())
                         }
-                        className="mt-auto mr-3 btn btn-secondary bg-blue-700 rounded-xl"
+                        className="btn btn-primary btn-sm mr-4"
                       >
                         PDF
                       </div>
@@ -172,27 +161,15 @@ const SectionItemsPage = () => {
                     <div className="mt-auto">
                       <Link
                         href={`/cms/sections/${id}/items/${item.id}/edit`}
-                        className="btn bg-green-500 rounded-xl text-white"
+                        className="btn btn-primary btn-sm"
                       >
                         Edit
                       </Link>
                     </div>
                   </div>
-                  <div className="flex justify-end">
-                    <h1 className="font-bold">Created At: </h1>
-                    {new Date(item.created_at)
-                      .toLocaleString("en-GB", {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: false,
-                      })
-                      .replace(",", "")
-                      .replace(" ", "-")
-                      .replace(" ", "-")
-                      .replace("at", " ")}
+                  <FormattedDate date={item.created_at} label="Created At" />
+                  <div className=" text-sm text-red-500 text-center font-bold flex justify-end">
+                    Status: Hidden
                   </div>
                 </div>
               </li>

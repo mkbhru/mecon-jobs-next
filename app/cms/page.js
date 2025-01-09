@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Loading from "../components/Loading";
+import FormattedDate from "../components/helper/FormattedDate";
 
 const CmsDashboard = () => {
   const [sections, setSections] = useState([]);
@@ -43,14 +44,13 @@ const CmsDashboard = () => {
     return <Loading />;
   }
 
+  const visibleSections = sections.filter((section) => section.is_visible);
+  const hiddenSections = sections.filter((section) => !section.is_visible);
+
   return (
     <div className="min-h-screen bg-base-300 p-4 rounded-md">
-      {/* Header */}
-
-      {/* Main Content */}
       <div className="card bg-base-200 shadow-lg rounded-lg p-4">
         <h2 className="text-2xl font-bold mb-4">
-          {" "}
           Manage Advertisements - Dashboard
         </h2>
         <div className="mt-6 p-4">
@@ -59,31 +59,82 @@ const CmsDashboard = () => {
           </Link>
         </div>
 
-        {sections.length > 0 ? (
+        {/* Visible Sections */}
+        <h3 className="text-xl font-bold mt-6 mb-4">
+          Visible Advertisements/Notices
+        </h3>
+        {visibleSections.length > 0 ? (
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {sections.map((section) => (
+            {visibleSections.map((section) => (
               <li
                 key={section.id}
                 className="card card-bordered bg-base-100 shadow-md"
               >
                 <div className="card-body flex flex-col">
-                  <div>
-                    <h3 className="card-title text-lg">{section.name}</h3>
-                  </div>
+                  <h3 className="card-title text-lg">{section.name}</h3>
                   <div className="mt-auto flex justify-end">
                     <Link
-                      href={`/cms/sections/${section.id}`}
-                      className="btn btn-primary btn-sm mt-4"
+                      href={`/cms/sections/${section.id}/edit`}
+                      className="btn btn-primary btn-sm mr-2"
                     >
-                      Manage Advertisement/Notice
+                      Edit
                     </Link>
+                    <Link
+                      href={`/cms/sections/${section.id}`}
+                      className="btn btn-primary btn-sm"
+                    >
+                      Manage
+                    </Link>
+                  </div>
+                  <FormattedDate date={section.created_at} label="Created At" />
+                  <div className="flex justify-end text-sm text-green-500 text-center font-bold">
+                    Status: Visible
                   </div>
                 </div>
               </li>
             ))}
           </ul>
         ) : (
-          <p>No sections available. Add a new section to get started.</p>
+          <p>No visible advertisements/notices.</p>
+        )}
+
+        {/* Hidden Sections */}
+        <h3 className="text-xl font-bold mt-6 mb-4">
+          Hidden Advertisements/Notices
+        </h3>
+        {hiddenSections.length > 0 ? (
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {hiddenSections.map((section) => (
+              <li
+                key={section.id}
+                className="card card-bordered bg-base-100 shadow-md"
+              >
+                <div className="card-body flex flex-col">
+                  <h3 className="card-title text-lg">{section.name}</h3>
+                  <div className="mt-auto flex justify-end">
+                    <Link
+                      href={`/cms/sections/${section.id}/edit`}
+                      className="btn btn-primary btn-sm mr-2"
+                    >
+                      Edit
+                    </Link>
+                    <Link
+                      href={`/cms/sections/${section.id}`}
+                      className="btn btn-primary btn-sm"
+                    >
+                      Manage
+                    </Link>
+                  </div>
+                  <FormattedDate date={section.created_at} label="Created At" />
+                  <div className="flex justify-end text-sm text-red-500 text-center font-bold">
+                    Status: Hidden
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No hidden advertisements/notices.</p>
         )}
       </div>
     </div>
