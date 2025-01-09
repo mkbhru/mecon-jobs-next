@@ -15,10 +15,6 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
-      // Override the btn-primary color to black
-      colors: {
-        "btn-primary": "black",
-      },
     },
   },
   plugins: [typography, daisyui],
