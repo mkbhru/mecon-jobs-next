@@ -68,6 +68,13 @@ const Navbar = () => {
               className="w-16 h-8"
             /> */}
             <Image
+              src="/har.png"
+              alt="Harekkamdeshknam"
+              width={64}
+              height={32}
+              className="w-16 h-8"
+            />
+            <Image
               src="/logoakm.png"
               alt="azadi ka amritmahotsav"
               width={64}
