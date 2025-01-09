@@ -5,19 +5,19 @@ export async function PUT(req, { params }) {
   const { item_id } = await params;
 
   try {
-    const { content } = await req.json();
+    const { content, isVisible } = await req.json();
 
     // Validate input
-    if (!content) {
+    if (!content || !item_id) {
       return NextResponse.json(
-        { error: "Content is are required" },
+        { error: "Content and visibility are required" },
         { status: 400 }
       );
     }
 
     // Update the item in the database
-    const query = "UPDATE section_items SET content = ? WHERE id = ?";
-    await db.execute(query, [content, item_id]);
+    const query = "UPDATE section_items SET content = ? , is_visible = ? WHERE id = ?";
+    await db.execute(query, [content, isVisible, item_id]);
 
     return NextResponse.json(
       { message: "Item updated successfully" },

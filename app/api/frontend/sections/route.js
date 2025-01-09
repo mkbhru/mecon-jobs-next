@@ -21,7 +21,7 @@ export async function GET() {
     // Fetch items for each section
     for (const section of sections) {
       const [items] = await db.query(
-        "SELECT * FROM section_items WHERE section_id = ? Order By id DESC",
+        "SELECT * FROM section_items WHERE section_id = ? AND is_visible = 1 Order By id DESC",
         [section.id]
       );
       sectionsWithItems.push({

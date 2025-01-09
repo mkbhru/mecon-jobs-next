@@ -18,30 +18,8 @@ const SectionItemsPage = () => {
       window.open(`/api/download?file=${file}`, "_blank");
     } else {
       alert("No file to view");
-      console.log(pdf_url, "pdf_url");
     }
   };
-
-  //  useEffect(() => {
-  //     // Fetch the current item data
-  //     const fetchItem = async () => {
-  //       try {
-  //         const response = await fetch(`/api/cms/items/${item_id}`);
-  //         if (!response.ok) {
-  //           throw new Error("Failed to fetch item details");
-  //         }
-  //         const data = await response.json();
-  //         setItem(data);
-  //         setContent(data.content);
-  //         setPdfUrl(data.pdf_url);
-  //       } catch (err) {
-  //         console.error("Error fetching item:", err);
-  //         setError("Failed to load item details.");
-  //       }
-  //     };
-  
-  //     fetchItem();
-  //   }, [item_id]);
 
   useEffect(() => {
     if (!id) return;
@@ -79,6 +57,10 @@ const SectionItemsPage = () => {
     return <Loading />;
   }
 
+  // Filter visible and hidden items
+  const visibleItems = items.filter((item) => item.is_visible);
+  const hiddenItems = items.filter((item) => !item.is_visible);
+
   return (
     <div className="min-h-screen p-4 bg-base-300 rounded-lg">
       {/* Section Header */}
@@ -96,67 +78,130 @@ const SectionItemsPage = () => {
           Create New Notification/Corrigendum/etc
         </Link>
       </div>
-      {/* Section Items */}
-      {items.length > 0 ? (
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((item) => (
-            <li key={item.id} className="card card-bordered shadow-md">
-              <div className="card-body flex flex-col justify-between">
-                <h3 className="card-title text-lg">{item.content}</h3>
-                <div className="flex flex-row justify-end">
-                  {/* <pre>{JSON.stringify(item, null, 2)}</pre> */}
-                  {item.pdf_url && (
-                    <Link
-                      href={`/cms/sections/${id}/items/${item.id}/edit`}
-                      className="mt-auto mr-3 btn btn-neutral bg-black rounded-xl"
-                    >
-                      {item.is_visible ? "visible" : "hidden"}
-                    </Link>
-                  )}
-                  {item.pdf_url && (
-                    <div
-                      onClick={() =>
-                        handleViewInNewTab(item.pdf_url.split("/").pop())
-                      }
-                      className="mt-auto mr-3 btn btn-secondary bg-blue-700 rounded-xl"
-                    >
-                      PDF
+
+      {/* Visible Items Section */}
+      <div className="mt-8">
+        <h2 className="text-xl font-bold mb-4">Visible Items</h2>
+        {visibleItems.length > 0 ? (
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {visibleItems.map((item) => (
+              <li key={item.id} className="card card-bordered shadow-md">
+                <div className="card-body flex flex-col justify-between">
+                  <h3 className="card-title text-lg">{item.content}</h3>
+                  <div className="flex flex-row justify-end">
+                    {item.pdf_url && (
+                      <Link
+                        href={`/cms/sections/${id}/items/${item.id}/edit`}
+                        className="mt-auto mr-3 btn btn-neutral bg-black rounded-xl"
+                      >
+                        Visible
+                      </Link>
+                    )}
+                    {item.pdf_url && (
+                      <div
+                        onClick={() =>
+                          handleViewInNewTab(item.pdf_url.split("/").pop())
+                        }
+                        className="mt-auto mr-3 btn btn-secondary bg-blue-700 rounded-xl"
+                      >
+                        PDF
+                      </div>
+                    )}
+                    <div className="mt-auto">
+                      <Link
+                        href={`/cms/sections/${id}/items/${item.id}/edit`}
+                        className="btn bg-green-500 rounded-xl text-white"
+                      >
+                        Edit
+                      </Link>
                     </div>
-                  )}
-                  <div className=" mt-auto ">
-                    <Link
-                      href={`/cms/sections/${id}/items/${item.id}/edit`}
-                      className="btn bg-green-500 rounded-xl text-white"
-                    >
-                      Edit
-                    </Link>
+                  </div>
+                  <div className="flex justify-end">
+                    <h1 className="font-bold">Created At: </h1>
+                    {new Date(item.created_at)
+                      .toLocaleString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                      })
+                      .replace(",", "")
+                      .replace(" ", "-")
+                      .replace(" ", "-")
+                      .replace("at", " ")}
                   </div>
                 </div>
-                <div className="flex justify-end">
-                  <h1 className="font-bold">Created At: </h1>
-                  {new Date(item.created_at)
-                    .toLocaleString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: false,
-                    })
-                    .replace(",", "")
-                    .replace(" ", "-")
-                    .replace(" ", "-")
-                    .replace("at", " ")}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <MessageCard>No visible items found.</MessageCard>
+        )}
+      </div>
+
+      {/* Hidden Items Section */}
+      <div className="mt-8">
+        <h2 className="text-xl font-bold mb-4">Hidden Items</h2>
+        {hiddenItems.length > 0 ? (
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {hiddenItems.map((item) => (
+              <li key={item.id} className="card card-bordered shadow-md">
+                <div className="card-body flex flex-col justify-between">
+                  <h3 className="card-title text-lg">{item.content}</h3>
+                  <div className="flex flex-row justify-end">
+                    {item.pdf_url && (
+                      <Link
+                        href={`/cms/sections/${id}/items/${item.id}/edit`}
+                        className="mt-auto mr-3 btn btn-neutral bg-gray-500 rounded-xl"
+                      >
+                        Hidden
+                      </Link>
+                    )}
+                    {item.pdf_url && (
+                      <div
+                        onClick={() =>
+                          handleViewInNewTab(item.pdf_url.split("/").pop())
+                        }
+                        className="mt-auto mr-3 btn btn-secondary bg-blue-700 rounded-xl"
+                      >
+                        PDF
+                      </div>
+                    )}
+                    <div className="mt-auto">
+                      <Link
+                        href={`/cms/sections/${id}/items/${item.id}/edit`}
+                        className="btn bg-green-500 rounded-xl text-white"
+                      >
+                        Edit
+                      </Link>
+                    </div>
+                  </div>
+                  <div className="flex justify-end">
+                    <h1 className="font-bold">Created At: </h1>
+                    {new Date(item.created_at)
+                      .toLocaleString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                      })
+                      .replace(",", "")
+                      .replace(" ", "-")
+                      .replace(" ", "-")
+                      .replace("at", " ")}
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <MessageCard>
-          No Items (Notification/Corrigendum/etc) are created!
-        </MessageCard>
-      )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <MessageCard>No hidden items found.</MessageCard>
+        )}
+      </div>
     </div>
   );
 };

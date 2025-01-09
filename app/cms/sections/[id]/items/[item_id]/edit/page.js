@@ -115,13 +115,18 @@ const EditItemPage = () => {
               </div>
             )}
           </div>
-          <div className="flex space-x-2 justify-end p-4">
+          <div className="flex justify-end p-4">
             <button
-              type="button"
-              className="btn btn-secondary"
               onClick={() => setIsVisible(!isVisible)}
+              className={`w-14 h-8 flex items-center rounded-full p-1 ${
+                isVisible ? "bg-green-500" : "bg-red-500"
+              } transition duration-300`}
             >
-              {isVisible ? "Hide" : "Show"}
+              <div
+                className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-transform ${
+                  isVisible ? "translate-x-6" : "translate-x-0"
+                }`}
+              ></div>
             </button>
           </div>
           <div className="flex justify-between items-center p-2 mt-16">

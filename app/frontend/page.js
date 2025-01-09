@@ -60,7 +60,7 @@ const FrontendPage = () => {
     <>
       {sections.length > 0 && <StripSection />}
       <div className="container mx-auto mt-8 min-h-screen">
-        {sections.length > 10 ? 
+        {sections.length > 0 ? 
         (
           sections.map((section) => (
             <div
