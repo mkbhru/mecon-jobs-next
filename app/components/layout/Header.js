@@ -24,7 +24,7 @@ function Header() {
     <>
       {
         <>
-          <div className="navbar bg-base-300">
+          <div className="navbar bg-gray-300">
             <div className="navbar-start">
               <div>
                 <>
@@ -44,7 +44,7 @@ function Header() {
                       href="http://www.meconlimited.co.in/"
                       // target="_blank"
                       rel="noopener noreferrer"
-                      className="btn"
+                      className="btn bg-gray-200"
                     >
                       <FaHome className="text-xl" />
                       Main Website

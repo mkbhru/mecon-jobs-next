@@ -9,6 +9,18 @@ const FrontendPage = () => {
   const [sections, setSections] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  function toSentenceCase(text) {
+    return text
+      .toLowerCase() // Convert all to lowercase
+      .replace(/(^\s*\w|[.!?]\s*\w)/g, (char) => char.toUpperCase()); // Capitalize the first letter after a period, exclamation, or question mark
+  }
+
+  function toTitleCase(text) {
+    return text
+      .toLowerCase() // Convert all to lowercase
+      .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word
+  }
+
   const extractFileInfo = (pdf_url) => {
     const parts = pdf_url.split("/");
     const filenameWithExt = parts.pop();
@@ -58,15 +70,14 @@ const FrontendPage = () => {
     <>
       {sections.length > 0 && <StripSection />}
       <div className="container mx-auto mt-8 min-h-screen">
-        {sections.length > 0 ? 
-        (
+        {sections.length > 0 ? (
           sections.map((section) => (
             <div
               key={section.id}
               className="section mb-6 card p-6 bg-slate-200"
             >
               <h2 className="text-2xl font-semibold mb-2 text-blue-600">
-                {section.name}
+                {toTitleCase(`${section.name}`)}
               </h2>
               <ul className="list-none space-y-2">
                 {section.items.map((item, index) => (
@@ -75,8 +86,8 @@ const FrontendPage = () => {
                     className="card  shadow-md p-4 flex justify-between items-center bg-gray-300 rounded-xl min-h-4"
                   >
                     <div className="flex justify-between w-full items-center">
-                      <h1 className="text-base font-semiboldcm">
-                        {item.content}
+                      <h1 className="text-base font-semibold">
+                        {toSentenceCase(`${item.content}`)}
                       </h1>
                       {!isMobile && item.pdf_url && (
                         <div
