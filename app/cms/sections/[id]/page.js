@@ -86,33 +86,37 @@ const SectionItemsPage = () => {
         {visibleItems.length > 0 ? (
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {visibleItems.map((item) => (
-              <li key={item.id} className="card card-bordered shadow-md bg-green-100">
+              <li
+                key={item.id}
+                className="card card-bordered shadow-md bg-green-100"
+              >
                 <div className="card-body flex flex-col justify-between">
                   <h3 className="card-title text-lg">{item.content}</h3>
-                  <div className="flex flex-row justify-end mt-6">
-                    
-                    {item.pdf_url && (
-                      <div
-                        onClick={() =>
-                          handleViewInNewTab(item.pdf_url.split("/").pop())
-                        }
-                        className="btn btn-primary btn-sm mr-4"
-                      >
-                        PDF
+                  <div className="flex flex-col justify-end mt-auto">
+                    <div className="flex flex-row justify-end mt-6">
+                      {item.pdf_url && (
+                        <div
+                          onClick={() =>
+                            handleViewInNewTab(item.pdf_url.split("/").pop())
+                          }
+                          className="btn btn-primary btn-sm mr-4"
+                        >
+                          PDF
+                        </div>
+                      )}
+                      <div className="mt-auto">
+                        <Link
+                          href={`/cms/sections/${id}/items/${item.id}/edit`}
+                          className="btn btn-primary btn-sm"
+                        >
+                          Edit
+                        </Link>
                       </div>
-                    )}
-                    <div className="mt-auto">
-                      <Link
-                        href={`/cms/sections/${id}/items/${item.id}/edit`}
-                        className="btn btn-primary btn-sm"
-                      >
-                        Edit
-                      </Link>
                     </div>
-                  </div>
-                  <FormattedDate date={item.created_at} label="Created At" />
-                  <div className=" text-sm text-green-500 text-center font-bold flex justify-end">
-                    Status: Visible
+                    <FormattedDate date={item.created_at} label="Created At" />
+                    <div className="mt-2 text-sm text-green-500 text-center font-bold flex justify-end">
+                      Status: Visible
+                    </div>
                   </div>
                 </div>
               </li>
@@ -129,11 +133,16 @@ const SectionItemsPage = () => {
         {hiddenItems.length > 0 ? (
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {hiddenItems.map((item) => (
-              <li key={item.id} className="card card-bordered shadow-md bg-red-100">
+              <li
+                key={item.id}
+                className="card card-bordered shadow-md bg-red-100"
+              >
                 <div className="card-body flex flex-col justify-between">
                   <h3 className="card-title text-lg">{item.content}</h3>
-                  <div className="flex flex-row justify-end mt-6">
-                    {/* {item.pdf_url && (
+
+                  <div className="flex flex-col justify-end mt-auto">
+                    <div className="flex flex-row justify-end mt-6">
+                      {/* {item.pdf_url && (
                       <Link
                         href={`/cms/sections/${id}/items/${item.id}/edit`}
                         className="mt-auto mr-3 btn btn-neutral bg-gray-500 rounded-xl"
@@ -141,28 +150,29 @@ const SectionItemsPage = () => {
                         Hidden
                       </Link>
                     )} */}
-                    {item.pdf_url && (
-                      <div
-                        onClick={() =>
-                          handleViewInNewTab(item.pdf_url.split("/").pop())
-                        }
-                        className="btn btn-primary btn-sm mr-4"
-                      >
-                        PDF
+                      {item.pdf_url && (
+                        <div
+                          onClick={() =>
+                            handleViewInNewTab(item.pdf_url.split("/").pop())
+                          }
+                          className="btn btn-primary btn-sm mr-4"
+                        >
+                          PDF
+                        </div>
+                      )}
+                      <div className="mt-auto">
+                        <Link
+                          href={`/cms/sections/${id}/items/${item.id}/edit`}
+                          className="btn btn-primary btn-sm"
+                        >
+                          Edit
+                        </Link>
                       </div>
-                    )}
-                    <div className="mt-auto">
-                      <Link
-                        href={`/cms/sections/${id}/items/${item.id}/edit`}
-                        className="btn btn-primary btn-sm"
-                      >
-                        Edit
-                      </Link>
                     </div>
-                  </div>
-                  <FormattedDate date={item.created_at} label="Created At" />
-                  <div className=" text-sm text-red-500 text-center font-bold flex justify-end">
-                    Status: Hidden
+                    <FormattedDate date={item.created_at} label="Created At" />
+                    <div className="mt-2 text-sm text-red-500 text-center font-bold flex justify-end">
+                      Status: Hidden
+                    </div>
                   </div>
                 </div>
               </li>

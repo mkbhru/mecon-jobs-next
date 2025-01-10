@@ -69,25 +69,30 @@ const CmsDashboard = () => {
                 key={section.id}
                 className="card card-bordered bg-green-100 shadow-md"
               >
-                <div className="card-body flex flex-col">
+                <div className="card-body flex flex-col ">
                   <h3 className="card-title text-lg">{section.name}</h3>
-                  <div className="mt-auto flex justify-end">
-                    <Link
-                      href={`/cms/sections/${section.id}/edit`}
-                      className="btn btn-primary btn-sm mr-2"
-                    >
-                      Edit
-                    </Link>
-                    <Link
-                      href={`/cms/sections/${section.id}`}
-                      className="btn btn-primary btn-sm"
-                    >
-                      Manage
-                    </Link>
-                  </div>
-                  <FormattedDate date={section.created_at} label="Created At" />
-                  <div className="flex justify-end text-sm text-green-500 text-center font-bold">
-                    Status: Visible
+                  <div className="flex flex-col justify-end mt-auto  ">
+                    <div className="mt-auto flex justify-end">
+                      <Link
+                        href={`/cms/sections/${section.id}/edit`}
+                        className="btn btn-primary btn-sm mr-2"
+                      >
+                        Edit
+                      </Link>
+                      <Link
+                        href={`/cms/sections/${section.id}`}
+                        className="btn btn-primary btn-sm"
+                      >
+                        Manage
+                      </Link>
+                    </div>
+                    <FormattedDate
+                      date={section.created_at}
+                      label="Created At"
+                    />
+                    <div className="mt-2 flex justify-end text-sm text-green-500 text-center font-bold">
+                      Status: Visible
+                    </div>
                   </div>
                 </div>
               </li>
@@ -109,23 +114,28 @@ const CmsDashboard = () => {
               >
                 <div className="card-body flex flex-col">
                   <h3 className="card-title text-lg">{section.name}</h3>
-                  <div className="mt-auto flex justify-end">
-                    <Link
-                      href={`/cms/sections/${section.id}/edit`}
-                      className="btn btn-primary btn-sm mr-2"
-                    >
-                      Edit
-                    </Link>
-                    <Link
-                      href={`/cms/sections/${section.id}`}
-                      className="btn btn-primary btn-sm"
-                    >
-                      Manage
-                    </Link>
-                  </div>
-                  <FormattedDate date={section.created_at} label="Created At" />
-                  <div className="flex justify-end text-sm text-red-500 text-center font-bold">
-                    Status: Hidden
+                  <div className="flex flex-col mt-auto">
+                    <div className="mt-auto flex justify-end">
+                      <Link
+                        href={`/cms/sections/${section.id}/edit`}
+                        className="btn btn-primary btn-sm mr-2"
+                      >
+                        Edit
+                      </Link>
+                      <Link
+                        href={`/cms/sections/${section.id}`}
+                        className="btn btn-primary btn-sm"
+                      >
+                        Manage
+                      </Link>
+                    </div>
+                    <FormattedDate
+                      date={section.created_at}
+                      label="Created At"
+                    />
+                    <div className="mt-2 flex justify-end text-sm text-red-500 text-center font-bold">
+                      Status: Hidden
+                    </div>
                   </div>
                 </div>
               </li>
@@ -134,12 +144,9 @@ const CmsDashboard = () => {
         ) : (
           <p>No hidden advertisements/notices.</p>
         )}
-
       </div>
     </div>
-
   );
-  
 };
 
 export default CmsDashboard;
