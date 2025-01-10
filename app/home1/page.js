@@ -73,7 +73,7 @@ const FrontendPage = () => {
               <Card
                 key={section.id}
                 title={
-                  <Title level={5} style={{ margin: 0 }}>
+                  <Title level={5} style={{ margin: 0, fontWeight: "bold",color: "blue" }}>
                     {section.name}
                   </Title>
                 }
@@ -111,7 +111,7 @@ const FrontendPage = () => {
                           : []
                       }
                     >
-                      <Text style={{ fontSize: "14px" }}>{item.content}</Text>
+                      <Text style={{ fontSize: "14px", fontWeight: "bold" }}>{item.content}</Text>
                     </List.Item>
                   )}
                 />
