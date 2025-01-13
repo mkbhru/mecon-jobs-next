@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Loading from "@/app/components/Loading";
+import { toast } from "react-toastify";
 
 const EditSectionPage = () => {
   const router = useRouter();
@@ -48,6 +49,7 @@ const EditSectionPage = () => {
       });
 
       if (response.ok) {
+        toast.success("Advertisement Details Updated Successfully 👍");
         router.push(`/cms`);
       } else {
         const data = await response.json();

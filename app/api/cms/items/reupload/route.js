@@ -5,63 +5,64 @@ import path from "path";
 
 export async function POST(req) {
   const formData = await req.formData();
-  const file = formData.get("file") || null; // Safely get the file field
-  const section_id = formData.get("section_id");
-  const content = formData.get("content");
+  const file = formData.get("file") || null;
+  const item_id = formData.get("item_id");
 
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  const timestamp =
-    `${year}${month}${day}` +
-    "_" +
-    now.getHours().toString().padStart(2, "0") +
-    now.getMinutes().toString().padStart(2, "0") +
-    now.getSeconds().toString().padStart(2, "0");
+  let pdf_url = null;
 
-  let pdf_url = null; // Initialize pdf_url as null
+  if (!item_id) {
+    return NextResponse.json({ error: "Item ID is required" }, { status: 400 });
+  }
 
-  const dirPath = `/var/www/uploads/${year}/${month}/${day}`;
+  let existingItem;
+  try {
+    const [rows] = await db.query(
+      "SELECT pdf_url FROM section_items WHERE id = ?",
+      [item_id]
+    );
+    if (rows.length === 0) {
+      return NextResponse.json(
+        { error: "Item not found with the given ID" },
+        { status: 404 }
+      );
+    }
+    existingItem = rows[0];
+    pdf_url = existingItem.pdf_url;
+  } catch (error) {
+    console.error("Error fetching item:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch item details" },
+      { status: 500 }
+    );
+  }
+
+  const dirPath = `/var/www/uploads${pdf_url}`;
 
   if (file) {
     if (file.type !== "application/pdf") {
-      return new Response(JSON.stringify({ error: "Invalid file type" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
     }
 
     try {
-      await fs.mkdir(dirPath, { recursive: true });
-
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
-      const filePath = path.join(dirPath, `${timestamp}_${file.name}`);
+
+      const filePath = dirPath;
 
       await fs.writeFile(filePath, buffer);
-      console.log(`File uploaded: ${filePath}`);
-      pdf_url = filePath.replace("/var/www/uploads", "");
-      // Set the PDF URL after successful upload
+      console.log(`File reuploaded: ${filePath}`);
     } catch (error) {
-      console.error("File upload error:", error);
-      return new Response(JSON.stringify({ error: "Failed to save file" }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
+      console.error("File reupload error:", error);
+      return NextResponse.json(
+        { error: "Failed to resave file" },
+        { status: 500 }
+      );
     }
-  } else {
-    console.log("pdf file not uploaded");
   }
 
-  try {
-    await db.query(
-      "INSERT INTO section_items (section_id, content, pdf_url) VALUES (?, ?, ?)",
-      [section_id, content, pdf_url]
-    );
-    return NextResponse.json({ message: "Item added successfully" });
-  } catch (error) {
-    console.error("Error adding item:", error);
-    return NextResponse.json({ message: "Error adding item" }, { status: 500 });
-  }
+  // Success response
+  return NextResponse.json(
+    { message: "PDF reuploaded successfully", pdf_url },
+    { status: 200 }
+  );
 }

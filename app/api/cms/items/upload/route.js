@@ -55,9 +55,14 @@ export async function POST(req) {
   }
 
   try {
+    const [rows] = await db.query(
+      "SELECT COALESCE(MAX(sort_order), 0) AS max_sort_order FROM section_items"
+    );
+
+    const maxSortOrder = rows[0].max_sort_order + 1; // Get the next sort_order
     await db.query(
-      "INSERT INTO section_items (section_id, content, pdf_url) VALUES (?, ?, ?)",
-      [section_id, content, pdf_url]
+      "INSERT INTO section_items (section_id, content, pdf_url, sort_order) VALUES (?, ?, ?, ?)",
+      [section_id, content, pdf_url, maxSortOrder]
     );
     return NextResponse.json({ message: "Item added successfully" });
   } catch (error) {
