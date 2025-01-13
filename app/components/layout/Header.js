@@ -42,10 +42,10 @@ function Header() {
             <a
               href="http://www.meconlimited.co.in/"
               rel="noopener noreferrer"
-              className="btn bg-gray-200"
+              className="btn btn-ghost font-bold"
             >
               <FaHome className="text-xl" />
-              <span className="ml-2 hidden md:inline">Main Website</span>
+              <span className="ml-2 hidden md:flex">Main Website</span>
             </a>
           )}
         </div>

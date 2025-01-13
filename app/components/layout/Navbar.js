@@ -20,7 +20,7 @@ const Navbar = () => {
 
   return (
     <header className="bg-white border-b shadow-sm">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center p-4">
+      <div className="bg-blue-50 mx-auto flex flex-col md:flex-row justify-between items-center p-4">
         {/* Left Section */}
         <div className="flex items-center space-x-4 mb-4 md:mb-0">
           {/* MECON Logo */}
@@ -43,7 +43,7 @@ const Navbar = () => {
 
         {/* Center Section - Responsive Menu */}
         <nav className="hidden md:flex items-center space-x-4">
-          <Link href="#" className="text-blue-600 text-sm">
+          <Link href="/screen-reader" className="text-blue-600 text-sm">
             Screen Reader
           </Link>
           <Link href="#" className="text-blue-600 text-sm">
@@ -80,8 +80,8 @@ const Navbar = () => {
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center space-x-4">
-          <div className="flex space-x-4">
+        <div className="hidden md:flex items-center space-x-4">
+          <div className="flex items-center space-x-4 flex-wrap">
             <Image
               src="/bbbp.png"
               alt="Beti Bachao Beti Padhao"
@@ -106,7 +106,7 @@ const Navbar = () => {
               className="w-16"
             />
             <Image
-              src="/swach-bharat.jpg"
+              src="/swach-bharat.png"
               alt="swach bharat"
               width={64}
               height={32}
