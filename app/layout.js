@@ -17,8 +17,8 @@ export default function RootLayout({ children }) {
       // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="">
-          <CombinedHeader/>
-          <ToastContainer />
+          <CombinedHeader />
+          <ToastContainer autoClose={12000} />
           <div className=" min-h-screen w-full flex items-center justify-center">
             <main className="w-full bg-blue-50 ">{children}</main>
           </div>
