@@ -104,6 +104,8 @@ const EditItemPage = () => {
     try {
       const response = await fetch(`/api/cms/items/${item_id}`, {
         method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pdf_url }),
       });
 
       if (response.ok) {
@@ -162,12 +164,12 @@ const EditItemPage = () => {
           </div>
           <div>
             {showFileInput && (
-              <div className="mt-4 flex justify-end">
+              <div className="mt-4 flex justify-end pr-4">
                 <input
                   type="file"
                   accept=".pdf"
                   onChange={(e) => setPdfFile(e.target.files[0])}
-                  className="file-input file-input-bordered border-4 border-blue-300"
+                  className="file-input file-input-bordered file-input-primary w-full max-w-xs "
                 />
               </div>
             )}

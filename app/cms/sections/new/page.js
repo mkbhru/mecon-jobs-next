@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const AddSection = () => {
   const [name, setName] = useState("");
@@ -23,9 +24,10 @@ const AddSection = () => {
         const data = await response.json();
         throw new Error(data.message || "Something went wrong");
       }
-
+      toast.success("New Advertisement created successfully 👍");
       router.push("/cms/");
     } catch (err) {
+      toast.error(err.message);
       setError(err.message);
     }
   };

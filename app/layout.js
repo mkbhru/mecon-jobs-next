@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
       >
         <div className="">
           <CombinedHeader />
-          <ToastContainer autoClose={12000} />
+          <ToastContainer autoClose={18000} className={"md:mt-16"}/>
           <div className=" min-h-screen w-full flex items-center justify-center">
             <main className="w-full bg-blue-50 ">{children}</main>
           </div>

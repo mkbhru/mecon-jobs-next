@@ -9,7 +9,7 @@ const AddItemPage = () => {
   const [content, setContent] = useState("");
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
-  const [isPdfUploaded, setIsPdf] = useState(false);
+  const [isPdfUploading, setIsPdf] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0); // Track progress
   const router = useRouter();
@@ -36,7 +36,7 @@ const AddItemPage = () => {
     formData.append("section_id", id);
     formData.append("content", content);
     formData.append("file", file || "");
-    formData.append("isPdfUploaded", isPdfUploaded);
+    formData.append("isPdfUploading", isPdfUploading);
 
     try {
       const response = await fetch("/api/cms/items/upload", {
@@ -116,7 +116,7 @@ const AddItemPage = () => {
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
           {/* Progress bar */}
-          {progress >= 0 && progress < 100 && (
+          {!error && progress >= 0 && progress < 100 && isPdfUploading && (
             <div className="w-full bg-gray-200 rounded-full h-2.5 mb-10 text-center">
               <div
                 className="bg-blue-600 h-3.5 rounded-full"
@@ -125,13 +125,14 @@ const AddItemPage = () => {
               <span className="sr-only font-bold">{progress}%Complete</span>
             </div>
           )}
-          {progress === 100 && (
+
+          {!error &&progress === 100 && !isPdfUploading && (
             <div className="w-full bg-gray-200 rounded-full h-2.5 text-green-700 font-bold mb-10 text-center">
               <div
                 className="bg-green-600 h-3.5 rounded-full"
                 style={{ width: `${progress}%` }}
               ></div>
-              upload successful!
+              SUCCESS!
             </div>
           )}
 

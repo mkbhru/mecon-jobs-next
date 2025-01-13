@@ -61,8 +61,13 @@ export async function GET(req, { params }) {
   }
 }
 
+
+import fs from "fs";
+import path from "path";
+
 export async function DELETE(req, { params }) {
-  const { item_id } = await params;
+  const { item_id } = params; // 'params' is already an object, no need to 'await' it
+  const pdf_url = req.pdf_url; // Make sure pdf_url is being passed correctly from the request body or query
 
   try {
     // Validate input
@@ -71,6 +76,19 @@ export async function DELETE(req, { params }) {
         { error: "Item ID is required" },
         { status: 400 }
       );
+    }
+
+    // If pdf_url exists, attempt to delete the file
+    if (pdf_url) {
+      const filePath = path.join("/var/www/uploads", pdf_url); // Adjust the file path if needed
+      // Check if the file exists before trying to delete
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.error("Error deleting file:", err);
+        } else {
+          console.log(`File deleted: ${filePath}`);
+        }
+      });
     }
 
     // Delete the item from the database
@@ -85,7 +103,7 @@ export async function DELETE(req, { params }) {
     }
 
     return NextResponse.json(
-      { message: "Item deleted successfully" },
+      { message: "Item and associated file deleted successfully" },
       { status: 200 }
     );
   } catch (error) {

@@ -22,8 +22,14 @@ export async function POST(req) {
     }
 
     // Insert section into the database
-    const query = "INSERT INTO sections (name) VALUES (?)";
-    const [result] = await db.execute(query, [name]);
+    const [rows] = await db.query(
+      "SELECT COALESCE(MAX(sort_order), 0) AS max_sort_order FROM section_items"
+    );
+
+    const maxSortOrder = rows[0].max_sort_order + 1; // Get the next sort_order
+
+    const query = "INSERT INTO sections (name, sort_order) VALUES (?, ?)";
+    const [result] = await db.execute(query, [name, maxSortOrder]);
 
     // Return success response
     return NextResponse.json(
