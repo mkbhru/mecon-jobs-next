@@ -33,9 +33,11 @@ const AddSection = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-200 p-4 flex items-center ">
-      <div className="card bg-base-100 shadow-lg p-4 max-w-md mx-auto flex-1 w-2/3">
-        <h2 className="text-2xl font-bold mb-4">Create New Advertisement</h2>
+    <div className="min-h-[80vh] bg-base-200 p-4 flex items-center w-full">
+      <div className="card bg-base-100 shadow-lg p-4 max-w-lg mx-auto  w-screen">
+        <h2 className="text-2xl font-bold text-center mb-6">
+          Create New Advertisement
+        </h2>
         {error && (
           <div className="alert alert-error mb-4">
             <span>{error}</span>
@@ -44,18 +46,20 @@ const AddSection = () => {
         <form onSubmit={handleSubmit}>
           <div className="form-control mb-4">
             <label className="label">
-              <span className="label-text font-medium">Advertisement Description</span>
+              <span className="label-text text-base font-medium">
+                Advertisement Description
+              </span>
             </label>
             <textarea
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="textarea textarea-bordered w-full h-24 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
+              className="textarea textarea-bordered w-full h-24 font-medium"
               placeholder="Enter Description"
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary w-full bg-green-400 hover:bg-green-500 hover:text-gray-200">
+          <button type="submit" className="btn btn-primary w-full">
             Create Advertisement
           </button>
         </form>

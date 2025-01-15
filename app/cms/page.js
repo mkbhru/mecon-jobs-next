@@ -57,6 +57,9 @@ const CmsDashboard = () => {
           <Link href="/cms/sections/new" className="btn btn-primary">
             Create New Advertisement/Notice
           </Link>
+          <Link href="/cms/sections/sort-sections" className="btn btn-primary ml-4">
+            Change Order
+          </Link>
         </div>
         {/* Visible Sections */}
         <h3 className="text-xl font-bold mt-6 mb-4">

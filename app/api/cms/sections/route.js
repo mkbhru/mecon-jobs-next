@@ -23,7 +23,7 @@ export async function POST(req) {
 
     // Insert section into the database
     const [rows] = await db.query(
-      "SELECT COALESCE(MAX(sort_order), 0) AS max_sort_order FROM section_items"
+      "SELECT COALESCE(MAX(sort_order), 0) AS max_sort_order FROM sections"
     );
 
     const maxSortOrder = rows[0].max_sort_order + 1; // Get the next sort_order
@@ -55,7 +55,7 @@ export async function GET(req) {
     }
 
     // Fetch sections from the database
-    const query = "SELECT * FROM sections order by id DESC";
+    const query = "SELECT * FROM sections order by sort_order DESC";
     const [rows] = await db.execute(query);
 
     // Return success response with sections data
