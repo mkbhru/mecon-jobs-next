@@ -78,9 +78,9 @@ const AddItemPage = () => {
   };
 
   return (
-    <div className="flex w-full min-h-screen items-center justify-center px-4 bg-base-200 rounded-lg">
+    <div className="flex w-full min-h-[80vh] items-center justify-center px-4 bg-base-200 rounded-lg">
       <div className="flex flex-col w-full max-w-lg p-6 rounded-lg shadow-lg bg-base-100">
-        <h1 className="text-2xl font-bold text-center mb-6">Add New Item</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">Create New Item</h1>
         <form
           onSubmit={handleSubmit}
           className="w-full"
