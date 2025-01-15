@@ -70,7 +70,7 @@ export default function SortSections() {
       });
 
       if (response.ok) {
-        toast.success("Sort order saved successfully.");
+        toast.success("New Order saved successfully.");
         router.push("/cms"); // Redirect to refresh the page
       } else {
         throw new Error("Failed to save sort order.");
