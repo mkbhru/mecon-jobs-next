@@ -71,12 +71,19 @@ const SectionItemsPage = () => {
           Manage items for this Advertisement
         </p>
       </div>
+
       <div className="mt-6 p-4">
         <Link
           href={`/cms/sections/${id}/items/new`}
           className="btn btn-primary font-bold"
         >
           Create New Item (Notification/Corrigendum/etc)
+        </Link>
+        <Link
+          href={`/cms/sections/${id}/sort-items`}
+          className="btn btn-primary ml-4"
+        >
+          Change Order
         </Link>
       </div>
 
