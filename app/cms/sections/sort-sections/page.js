@@ -95,7 +95,7 @@ export default function SortSections() {
           </button>
           <button
             className="btn btn-primary ml-4 mb-2"
-            onClick={() => window.location.reload()}
+            onClick={router.back}
             disabled={!sections.length}
           >
             Cancel
