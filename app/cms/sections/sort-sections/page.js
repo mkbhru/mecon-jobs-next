@@ -98,6 +98,7 @@ export default function SortSections() {
             onClick={router.back}
             disabled={!sections.length}
           >
+            
             Cancel
           </button>
         </div>
