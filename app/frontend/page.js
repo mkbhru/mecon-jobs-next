@@ -86,14 +86,26 @@ const FrontendPage = () => {
                       <h1 className="text-sm md:text-base font-semibold text-gray-800">
                         {toSentenceCase(`${item.content}`)}
                       </h1>
+                      <div className="flex">
+                         {item.id === 1021 && (
+                        <a
+                          href={"https://recruitment.meconlimited.co.in/Account/Login"}
+                          target="_blank"
+                          className="btn btn-sm btn-secondary text-sm ml-2"
+                        >
+                          Apply Online
+                        </a>
+                      )}
                       {item.pdf_url && (
                         <button
                           onClick={() => handleViewInNewTab(item.pdf_url)}
-                          className="btn btn-sm btn-primary text-sm"
+                          className="btn btn-sm btn-primary text-sm ml-2"
                         >
                           DOWNLOAD
                         </button>
                       )}
+                      </div>
+                     
                     </div>
                   </li>
                 ))}

@@ -63,7 +63,7 @@ const SectionItemsPage = () => {
   const hiddenItems = items.filter((item) => !item.is_visible);
 
   return (
-    <div className="min-h-screen p-4 bg-base-300  rounded-lg">
+    <div className="min-h-screen p-4 bg-base-200  rounded-lg">
       {/* Section Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold">{section.name}</h1>
