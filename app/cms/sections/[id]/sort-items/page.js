@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
-export default function SortSections() {
+export default function SortItems() {
+  const { id } = useParams();
   const router = useRouter();
 
   const [sections, setSections] = useState([]);
@@ -13,9 +14,9 @@ export default function SortSections() {
   useEffect(() => {
     const fetchSections = async () => {
       try {
-        const response = await fetch("/api/cms/sections/sortget"); // Replace with your API endpoint
+        const response = await fetch(`/api/cms/sections/${id}/sortget`); // Replace with your API endpoint
         const data = await response.json();
-        
+        // toast.success(`${JSON.stringify(data)}`);
         // Validate the response data
         if (!Array.isArray(data)) {
           console.error("Invalid data format: Expected an array.");
@@ -34,24 +35,41 @@ export default function SortSections() {
       }
     };
     fetchSections();
-  }, []);
+  }, [id]);
 
   const handleSort = (index, direction) => {
     const updatedSections = [...sections];
+
     if (direction === "up" && index > 0) {
-      [updatedSections[index - 1], updatedSections[index]] = [
-        updatedSections[index],
-        updatedSections[index - 1],
+      // Swap the current section with the one above it
+      const currentSection = updatedSections[index];
+      const aboveSection = updatedSections[index - 1];
+
+      // Swap their sort_order values
+      [currentSection.sort_order, aboveSection.sort_order] = [
+        aboveSection.sort_order,
+        currentSection.sort_order,
       ];
+
+      // Swap their positions in the array
+      updatedSections[index] = aboveSection;
+      updatedSections[index - 1] = currentSection;
     } else if (direction === "down" && index < sections.length - 1) {
-      [updatedSections[index + 1], updatedSections[index]] = [
-        updatedSections[index],
-        updatedSections[index + 1],
+      // Swap the current section with the one below it
+      const currentSection = updatedSections[index];
+      const belowSection = updatedSections[index + 1];
+
+      // Swap their sort_order values
+      [currentSection.sort_order, belowSection.sort_order] = [
+        belowSection.sort_order,
+        currentSection.sort_order,
       ];
+
+      // Swap their positions in the array
+      updatedSections[index] = belowSection;
+      updatedSections[index + 1] = currentSection;
     }
-    updatedSections.forEach((section, i) => {
-      section.sort_order = i + 1;
-    });
+
     setSections(updatedSections);
   };
 
@@ -63,7 +81,7 @@ export default function SortSections() {
         sort_order: section.sort_order, // Updated sort order
       }));
 
-      const response = await fetch("/api/cms/sections/save-sort", {
+      const response = await fetch(`/api/cms/sections/${id}/save-sort`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ sectionsArray }),
@@ -71,7 +89,8 @@ export default function SortSections() {
 
       if (response.ok) {
         toast.success("New Order saved successfully.");
-        router.push("/cms"); // Redirect to refresh the page
+        toast.success(JSON.stringify({ sectionsArray }));
+        router.back(); // Redirect to refresh the page
       } else {
         throw new Error("Failed to save sort order.");
       }
@@ -98,7 +117,6 @@ export default function SortSections() {
             onClick={router.back}
             disabled={!sections.length}
           >
-
             Cancel
           </button>
         </div>
@@ -132,10 +150,12 @@ export default function SortSections() {
                           {/* {reversedIndex + 1}.&nbsp;{" "} */}
                           {/* {originalIndex + 1}.&nbsp; */}
                           {sections.length - section.originalIndex + 1}.&nbsp;
+                          {section.id} &nbsp;
+                          {section.sort_order} &nbsp;
                           {/* Display reverse order */}
                         </p>
                         <h2 className="text-xl font-semibold">
-                          {section.name}
+                          {section.content}
                         </h2>
                       </div>
 
