@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useParams, useRouter } from "next/navigation";
 
 export default function SortItems() {
-  const {id} = useParams();
+  const { id } = useParams();
   const router = useRouter();
 
   const [sections, setSections] = useState([]);
@@ -37,41 +37,41 @@ export default function SortItems() {
     fetchSections();
   }, [id]);
 
- const handleSort = (index, direction) => {
-   const updatedSections = [...sections];
+  const handleSort = (index, direction) => {
+    const updatedSections = [...sections];
 
-   if (direction === "up" && index > 0) {
-     // Swap the current section with the one above it
-     const currentSection = updatedSections[index];
-     const aboveSection = updatedSections[index - 1];
+    if (direction === "up" && index > 0) {
+      // Swap the current section with the one above it
+      const currentSection = updatedSections[index];
+      const aboveSection = updatedSections[index - 1];
 
-     // Swap their sort_order values
-     [currentSection.sort_order, aboveSection.sort_order] = [
-       aboveSection.sort_order,
-       currentSection.sort_order,
-     ];
+      // Swap their sort_order values
+      [currentSection.sort_order, aboveSection.sort_order] = [
+        aboveSection.sort_order,
+        currentSection.sort_order,
+      ];
 
-     // Swap their positions in the array
-     updatedSections[index] = aboveSection;
-     updatedSections[index - 1] = currentSection;
-   } else if (direction === "down" && index < sections.length - 1) {
-     // Swap the current section with the one below it
-     const currentSection = updatedSections[index];
-     const belowSection = updatedSections[index + 1];
+      // Swap their positions in the array
+      updatedSections[index] = aboveSection;
+      updatedSections[index - 1] = currentSection;
+    } else if (direction === "down" && index < sections.length - 1) {
+      // Swap the current section with the one below it
+      const currentSection = updatedSections[index];
+      const belowSection = updatedSections[index + 1];
 
-     // Swap their sort_order values
-     [currentSection.sort_order, belowSection.sort_order] = [
-       belowSection.sort_order,
-       currentSection.sort_order,
-     ];
+      // Swap their sort_order values
+      [currentSection.sort_order, belowSection.sort_order] = [
+        belowSection.sort_order,
+        currentSection.sort_order,
+      ];
 
-     // Swap their positions in the array
-     updatedSections[index] = belowSection;
-     updatedSections[index + 1] = currentSection;
-   }
+      // Swap their positions in the array
+      updatedSections[index] = belowSection;
+      updatedSections[index + 1] = currentSection;
+    }
 
-   setSections(updatedSections);
- };
+    setSections(updatedSections);
+  };
 
   const saveSortOrder = async () => {
     try {
