@@ -4,7 +4,7 @@ import Loading from "../components/Loading";
 import MessageCard from "../components/helper/MessageCard";
 import Image from "next/image";
 import StripSection from "./StripSection";
-import { toast } from "react-toastify";
+import FraudulentNotice from "../components/helper/FraudulentNotice";
 
 const FrontendPage = () => {
   const [sections, setSections] = useState([]);
@@ -45,18 +45,19 @@ const FrontendPage = () => {
 
   return (
     <div>
-      <StripSection />
-      <div className="container mx-auto mt-8 p-4 min-h-screen bg-gray-100">
+      <FraudulentNotice/>
+      {/* <StripSection /> */}
+      <div className="container mx-auto p-16 min-h-screen bg-gray-100">
         {sections.length > 0 ? (
           sections.map((section) => (
             <div
               key={section.id}
               className="border-2 border-blue-700 rounded-md mb-5 p-3 bg-white shadow-lg"
             >
-              <h2 className="text-lg font-bold text-blue-800 mb-1">
+              <h2 className="text-lg font-bold text-blue-800 mb-1 2xl:text-2xl">
                 {toSentenceCase(section.name)}
               </h2>
-              <ul className="space-y-0">
+              <ul className="space-y-0 2xl:space-y-3 2xl:text-lg">
                 {section.items.map((item) => (
                   <li
                     key={item.id}
@@ -91,7 +92,7 @@ const FrontendPage = () => {
                       {item.pdf_url && (
                         <button
                           onClick={() => window.open(item.pdf_url, "_blank")}
-                          className="text-xs btn btn-primary bg-blue-700 text-white btn-xs hover:bg-white hover:text-blue-700 transition duration-200 ease-in-out transform hover:scale-105"
+                          className="text-xs btn btn-primary bg-blue-700 text-white btn-xs hover:bg-white hover:text-blue-700 transition duration-200 ease-in-out transform hover:scale-105 ml-2"
                         >
                           Download
                         </button>
