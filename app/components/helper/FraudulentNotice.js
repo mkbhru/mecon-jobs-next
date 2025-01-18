@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const FraudulentNotice = () => {
   const [isVisible, setIsVisible] = useState(true);
-
+//final
   return (
     <AnimatePresence>
       {isVisible && (
