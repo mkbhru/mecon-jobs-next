@@ -57,7 +57,7 @@ const AddItemPage = () => {
             clearInterval(fakeProgress); // Stop fake progress
             return 100;
           }
-          return prevProgress + 10; // Increment progress by 10%
+          return prevProgress + 15; // Increment progress by 10%
         });
       }, 100); // Simulate progress every 300ms
 
@@ -67,11 +67,10 @@ const AddItemPage = () => {
         setTimeout(() => {
           toast.success("Item added Successfully 👍", {
             position: "top-right",
-            autoClose: 15000,
             theme: "light",
           });
           router.push(`/cms/sections/${id}`);
-        }, 1500); // Wait for a short delay before redirect
+        }, 1000); // Wait for a short delay before redirect
       } else {
         const data = await response.json();
         setError(data.message || "Error adding item. Please try again.");
@@ -148,6 +147,7 @@ const AddItemPage = () => {
                 Start Date:
               </label>
               <input
+              required
                 type="datetime-local"
                 // value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
@@ -160,6 +160,7 @@ const AddItemPage = () => {
                 End Date:
               </label>
               <input
+              required
                 type="datetime-local"
                 // value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
@@ -170,7 +171,7 @@ const AddItemPage = () => {
 
           <div className="flex flex-col mb-4">
             <div className="flex">
-              <label className="block text-sm font-medium">Apply Online:</label>
+              <label className="block text-sm font-medium">Apply Online (optional):</label>
               <div className="tooltip tooltip-right" data-tip="If the link is filled an apply online button will be shown next to notification, till the end date">
                 <p className="pl-1 text-red-500 text-sm font-medium">?</p>
               </div>

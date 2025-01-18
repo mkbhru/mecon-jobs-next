@@ -89,7 +89,6 @@ export default function SortItems() {
 
       if (response.ok) {
         toast.success("New Order saved successfully.");
-        toast.success(JSON.stringify({ sectionsArray }));
         router.back(); // Redirect to refresh the page
       } else {
         throw new Error("Failed to save sort order.");
