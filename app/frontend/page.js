@@ -4,7 +4,6 @@ import Loading from "../components/Loading";
 import MessageCard from "../components/helper/MessageCard";
 import Image from "next/image";
 import StripSection from "./StripSection";
-import { toast } from "react-toastify";
 import FraudulentNotice from "../components/helper/FraudulentNotice";
 
 const FrontendPage = () => {
@@ -47,7 +46,7 @@ const FrontendPage = () => {
   return (
     <div>
       <FraudulentNotice/>
-      <StripSection />
+      {/* <StripSection /> */}
       <div className="container mx-auto p-16 min-h-screen bg-gray-100">
         {sections.length > 0 ? (
           sections.map((section) => (
@@ -55,10 +54,10 @@ const FrontendPage = () => {
               key={section.id}
               className="border-2 border-blue-700 rounded-md mb-5 p-3 bg-white shadow-lg"
             >
-              <h2 className="text-lg font-bold text-blue-800 mb-1 ">
+              <h2 className="text-lg font-bold text-blue-800 mb-1 2xl:text-2xl">
                 {toSentenceCase(section.name)}
               </h2>
-              <ul className="space-y-0">
+              <ul className="space-y-0 2xl:space-y-3 2xl:text-lg">
                 {section.items.map((item) => (
                   <li
                     key={item.id}

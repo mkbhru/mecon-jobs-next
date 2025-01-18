@@ -66,7 +66,7 @@ const FraudulentNotice = () => {
             <div className="mt-4 flex justify-center">
               <button
                 onClick={() => setIsVisible(false)}
-                className="btn btn-sm btn-primary bg-blue-700 text-white px-6 py-2 rounded-md hover:bg-blue-800"
+                className="btn btn-sm btn-info  px-6 py-2 rounded-md hover:bg-blue-800"
               >
                 Close
               </button>

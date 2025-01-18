@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { toast } from "react-toastify";
 
@@ -46,13 +47,15 @@ const StripSection = ({ speed = 20 }) => {
       className={`relative overflow-hidden bg-gray-300 h-[${height}px]`}
       // style={{ height: `${height}px` }}
     >
-      <div
-        className="flex items-center absolute inset-0 animate-marquee"
-        style={{ animationDuration: `${speed}s` }}
+      <motion.div
+        className="flex items-center absolute inset-0"
+        initial={{ x: 0 }}
+        animate={{ x: `-${images.length * height}px` }}
+        transition={{ duration: speed, repeat: Infinity }}
       >
         {/* Main set of images */}
         {images.map((src, index) => (
-          <div
+          <motion.div
             key={index}
             className="flex-shrink-0 relative overflow-hidden"
             style={{ height: `${height}px`, width: `${height}px` }}
@@ -65,11 +68,12 @@ const StripSection = ({ speed = 20 }) => {
               sizes={`${height}px`} // Specify the sizes prop
               priority
             />
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };
 
 export default StripSection;
+
