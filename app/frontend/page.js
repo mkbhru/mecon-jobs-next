@@ -17,6 +17,10 @@ const FrontendPage = () => {
       .replace(/(^\s*\w|[.!?]\s*\w)/g, (char) => char.toUpperCase());
   };
 
+  const toTitleCase = (text) => {
+    return text.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+  };
+
   const isGifVisible = (start_date, end_date) => {
     const end = new Date(end_date);
     return currentDate <= end;
@@ -55,7 +59,7 @@ const FrontendPage = () => {
               className="border-2 border-blue-700 rounded-md mb-5 p-3 bg-white shadow-lg"
             >
               <h2 className="text-lg font-bold text-blue-800 mb-1 2xl:text-2xl">
-                {toSentenceCase(section.name)}
+                {toTitleCase(section.name)}
               </h2>
               <ul className="space-y-0 2xl:space-y-3 2xl:text-lg">
                 {section.items.map((item) => (
