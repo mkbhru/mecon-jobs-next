@@ -8,6 +8,9 @@ export async function POST(req) {
   const file = formData.get("file") || null; // Safely get the file field
   const section_id = formData.get("section_id");
   const content = formData.get("content");
+  const startDate = formData.get("startDate");
+  const endDate = formData.get("endDate");
+  const applyOnline = formData.get("applyOnline");
 
   const now = new Date();
   const year = now.getFullYear();
@@ -61,8 +64,8 @@ export async function POST(req) {
 
     const maxSortOrder = rows[0].max_sort_order + 1; // Get the next sort_order
     await db.query(
-      "INSERT INTO section_items (section_id, content, pdf_url, sort_order) VALUES (?, ?, ?, ?)",
-      [section_id, content, pdf_url, maxSortOrder]
+      "INSERT INTO section_items (section_id, content, pdf_url, sort_order, start_date, end_date, apply_online) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [section_id, content, pdf_url, maxSortOrder, startDate, endDate, applyOnline]
     );
     return NextResponse.json({ message: "Item added successfully" });
   } catch (error) {

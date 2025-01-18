@@ -21,8 +21,8 @@ export async function POST(req, context) {
     // Update each section's sort_order in the database
     for (const section of sectionsArray) {
       const { id, sort_order } = section;
-
       // Validate id and sort_order
+      
       if (typeof id !== "number" || typeof sort_order !== "number") {
         throw new Error(
           "Invalid data format. `id` and `sort_order` must be numbers."

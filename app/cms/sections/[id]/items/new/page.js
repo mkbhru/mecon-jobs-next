@@ -12,6 +12,9 @@ const AddItemPage = () => {
   const [isPdfUploading, setIsPdf] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0); // Track progress
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [applyOnline, setApplyOnline] = useState("");
   const router = useRouter();
   const timer = 400;
 
@@ -37,6 +40,9 @@ const AddItemPage = () => {
     formData.append("content", content);
     formData.append("file", file || "");
     formData.append("isPdfUploading", isPdfUploading);
+    formData.append("startDate", startDate);
+    formData.append("endDate", endDate);
+    formData.append("applyOnline", applyOnline);
 
     try {
       const response = await fetch("/api/cms/items/upload", {
@@ -126,7 +132,7 @@ const AddItemPage = () => {
             </div>
           )}
 
-          {!error &&progress === 100 && !isPdfUploading && (
+          {!error && progress === 100 && !isPdfUploading && (
             <div className="w-full bg-gray-200 rounded-full h-2.5 text-green-700 font-bold mb-10 text-center">
               <div
                 className="bg-green-600 h-3.5 rounded-full"
@@ -136,6 +142,50 @@ const AddItemPage = () => {
             </div>
           )}
 
+          <div className="mt-6 mb-6 flex justify-between">
+            <div className="flex flex-col">
+              <label className="block text-sm font-medium mb-2">
+                Start Date:
+              </label>
+              <input
+                type="datetime-local"
+                // value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="input input-bordered w-full input-sm"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label className="block text-sm font-medium mb-2">
+                End Date:
+              </label>
+              <input
+                type="datetime-local"
+                // value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="input input-bordered w-full input-sm"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col mb-4">
+            <div className="flex">
+              <label className="block text-sm font-medium">Apply Online:</label>
+              <div className="tooltip tooltip-right" data-tip="If the link is filled an apply online button will be shown next to notification, till the end date">
+                <p className="pl-1 text-red-500 text-sm font-medium">?</p>
+              </div>
+            </div>
+
+            {/* Tooltip with question mark */}
+            <div className="flex items-center mt-1">
+              <input
+                type="text"
+                onChange={(e) => setApplyOnline(e.target.value)}
+                className="input input-bordered w-full input-sm"
+              />
+            </div>
+          </div>
+
           <button
             type="submit"
             className={`btn btn-primary w-full py-2 px-4 text-white bg-blue-600 rounded ${
@@ -143,7 +193,7 @@ const AddItemPage = () => {
             }`}
             disabled={isLoading}
           >
-            {isLoading ? "UPLOADING...." : "Add Item"}
+            {isLoading ? "UPLOADING...." : "Create Item"}
           </button>
         </form>
       </div>

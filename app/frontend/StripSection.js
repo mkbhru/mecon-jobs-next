@@ -1,7 +1,19 @@
 import Image from "next/image";
+import { toast } from "react-toastify";
 
-const StripSection = ({ speed = 20, height = 200 }) => {
+const StripSection = ({ speed = 20 }) => {
+  "StripSection loaded";
   // Default height set to 200px
+  const a = Math.floor(window.innerWidth) ; // 1 rem = 16px
+  let height = 0;
+  if (a > 1280) {
+    height = 200;
+  } else if(a < 500){
+    height = 100;
+  }
+
+  // toast.success(`${height}`);
+
   const images = [
     "/images/image1.jpg",
     "/images/image2.jpg",
@@ -31,8 +43,8 @@ const StripSection = ({ speed = 20, height = 200 }) => {
 
   return (
     <div
-      className="relative overflow-hidden bg-gray-300"
-      style={{ height: `${height}px` }}
+      className={`relative overflow-hidden bg-gray-300 h-[${height}px]`}
+      // style={{ height: `${height}px` }}
     >
       <div
         className="flex items-center absolute inset-0 animate-marquee"
