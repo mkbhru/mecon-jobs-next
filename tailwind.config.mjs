@@ -20,6 +20,6 @@ export default {
   plugins: [typography, daisyui],
   daisyui: {
     themes: ["winter"], // Ensure 'light' is the first theme
-    darkTheme: "light", // Optional, specifies the dark theme explicitly
+    darkTheme: "winter", // Optional, specifies the dark theme explicitly
   },
 };
