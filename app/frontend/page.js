@@ -5,6 +5,7 @@ import MessageCard from "../components/helper/MessageCard";
 import Image from "next/image";
 import StripSection from "./StripSection";
 import FraudulentNotice from "../components/helper/FraudulentNotice";
+import { toast } from "react-toastify";
 
 const FrontendPage = () => {
   const [sections, setSections] = useState([]);
@@ -21,11 +22,26 @@ const FrontendPage = () => {
     return text.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
   };
 
-  const isGifVisible = (start_date, end_date) => {
-    const end = new Date(end_date);
-    return currentDate <= end;
-  };
+  // const isGifVisible = (start_date, end_date) => {
+  //   const end = new Date(end_date);
+  //   return currentDate < end;
+  // };
 
+  const isGifVisible = (start_date, end_date) => {
+  const offsetHours = 5;
+  const offsetMinutes = 30;
+
+  // Create a new Date object for the current time
+  const offsetDate = new Date(currentDate);
+
+  // Add the offset (5 hours and 30 minutes)
+  offsetDate.setHours(offsetDate.getHours() + offsetHours);
+  offsetDate.setMinutes(offsetDate.getMinutes() + offsetMinutes);
+
+  // Compare with the end_date
+  const end = new Date(end_date);
+  return offsetDate < end;
+};
   useEffect(() => {
     const fetchSections = async () => {
       try {
@@ -86,7 +102,6 @@ const FrontendPage = () => {
                       {isGifVisible(item.start_date, item.end_date) &&
                         item.apply_online && (
                           <button
-                          disabled={!isGifVisible(item.start_date, item.end_date)}
                             onClick={() => window.open(item.apply_online, "_blank")}
                             className="text-xs btn btn-primary bg-pink-500 border-pink-500 text-white btn-xs hover:bg-white hover:text-pink-500 transition duration-200 ease-in-out transform hover:scale-105 hover:border-pink-500 "
                           >
