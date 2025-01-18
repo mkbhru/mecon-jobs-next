@@ -13,12 +13,15 @@ const FlexLayouts = () => {
       {/* Flex Row */}
       <section>
         <h2 className="text-lg font-semibold mb-4">1. Row Layout (Default)</h2>
-        <div className="flex space-x-4">
-          <button className="btn">Button 1</button>
+        <li className="flex space-x-4 justify-between">
+          <div className="flex space-x-2">
+            <button className="btn">Button 1</button>
           <h2 className="text-xl font-semibold">hello world</h2>
           <button className="btn">Button 2</button>
-          <button className="btn">Button 3</button>
-        </div>
+          </div>
+          
+          <button className="btn self-end">Button 3 end </button>
+        </li>
       </section>
 
       {/* Flex Row Reverse */}

@@ -1,49 +1,28 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Loading from "../components/Loading";
-import StripSection from "./StripSection";
 import MessageCard from "../components/helper/MessageCard";
+import Image from "next/image";
+import StripSection from "./StripSection";
+import { toast } from "react-toastify";
 
 const FrontendPage = () => {
   const [sections, setSections] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentDate, setCurrentDate] = useState(new Date());
 
-  function toSentenceCase(text) {
+  const toSentenceCase = (text) => {
     return text
       .toLowerCase()
       .replace(/(^\s*\w|[.!?]\s*\w)/g, (char) => char.toUpperCase());
-  }
-
-  function toTitleCase(text) {
-    return text.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
-  }
-
-  const extractFileInfo = (pdf_url) => {
-    const parts = pdf_url.split("/");
-    const filenameWithExt = parts.pop();
-    const [year, month, day] = parts.slice(-3);
-
-    if (year && month && day && filenameWithExt.endsWith(".pdf")) {
-      const filename = filenameWithExt.slice(0, -4);
-      return { year, month, day, filename };
-    }
-
-    console.log("No match");
-    return null;
   };
 
-  const handleViewInNewTab = (pdf_url) => {
-    const fileInfo = extractFileInfo(pdf_url);
-    if (fileInfo) {
-      const { filename } = fileInfo;
-      window.open(`/api/download?file=${filename}.pdf`, "_blank");
-    } else {
-      alert("No file to view");
-    }
+  const isGifVisible = (start_date, end_date) => {
+    const end = new Date(end_date);
+    return currentDate <= end;
   };
 
   useEffect(() => {
-    // Fetch the sections data from the API
     const fetchSections = async () => {
       try {
         const response = await fetch("/api/frontend/sections");
@@ -57,6 +36,7 @@ const FrontendPage = () => {
     };
 
     fetchSections();
+    setCurrentDate(new Date());
   }, []);
 
   if (loading) {
@@ -64,48 +44,58 @@ const FrontendPage = () => {
   }
 
   return (
-    <>
-      {sections.length > 0 && <StripSection />}
-      <div className="container mx-auto mt-8 min-h-screen p-4">
+    <div>
+      <StripSection />
+      <div className="container mx-auto mt-8 p-4 min-h-screen bg-gray-100">
         {sections.length > 0 ? (
           sections.map((section) => (
             <div
               key={section.id}
-              className="section mb-6 card p-4 md:p-6 bg-slate-200 rounded-lg"
+              className="border-2 border-blue-700 rounded-md mb-5 p-3 bg-white shadow-lg"
             >
-              <h2 className="text-xl md:text-2xl font-semibold mb-2 text-blue-600">
-                {toTitleCase(`${section.name}`)}
+              <h2 className="text-lg font-bold text-blue-800 mb-1">
+                {toSentenceCase(section.name)}
               </h2>
-              <ul className="list-none space-y-4">
+              <ul className="space-y-0">
                 {section.items.map((item) => (
                   <li
                     key={item.id}
-                    className="card shadow-md p-4 bg-gray-300 rounded-xl"
+                    className="flex flex-row justify-between items-center space-y-0 p-1 border-b last:border-b-0"
                   >
-                    <div className="flex flex-col md:flex-row justify-between items-center w-full space-y-2 md:space-y-0">
-                      <h1 className="text-sm md:text-base font-semibold text-gray-800">
-                        {toSentenceCase(`${item.content}`)}
-                      </h1>
-                      <div className="flex">
-                         {item.id === 1021 && (
-                        <a
-                          href={"https://recruitment.meconlimited.co.in/Account/Login"}
-                          target="_blank"
-                          className="btn btn-sm btn-secondary text-sm ml-2"
-                        >
-                          Apply Online
-                        </a>
-                      )}
+                    <div className="flex space-x-2">
+                      <div className=" text-sm font-semibold text-gray-700">
+                        {toSentenceCase(item.content)}
+
+                        {isGifVisible(item.start_date, item.end_date) && (
+                          <Image
+                            src="/new.gif"
+                            alt="New"
+                            width={24}
+                            height={24}
+                            className="inline-block ml-2"
+                          />
+                        )}
+                      </div>
+                    </div>
+                    <div className="ml-2">
+                      {isGifVisible(item.start_date, item.end_date) &&
+                        item.apply_online && (
+                          <button
+                          disabled={!isGifVisible(item.start_date, item.end_date)}
+                            onClick={() => window.open(item.apply_online, "_blank")}
+                            className="text-xs btn btn-primary bg-pink-500 border-pink-500 text-white btn-xs hover:bg-white hover:text-pink-500 transition duration-200 ease-in-out transform hover:scale-105 hover:border-pink-500 "
+                          >
+                            Apply Online
+                          </button>
+                        )}
                       {item.pdf_url && (
                         <button
-                          onClick={() => handleViewInNewTab(item.pdf_url)}
-                          className="btn btn-sm btn-primary text-sm ml-2"
+                          onClick={() => window.open(item.pdf_url, "_blank")}
+                          className="text-xs btn btn-primary bg-blue-700 text-white btn-xs hover:bg-white hover:text-blue-700 transition duration-200 ease-in-out transform hover:scale-105"
                         >
-                          DOWNLOAD
+                          Download
                         </button>
                       )}
-                      </div>
-                     
                     </div>
                   </li>
                 ))}
@@ -114,13 +104,13 @@ const FrontendPage = () => {
           ))
         ) : (
           <MessageCard>
-            <h3 className="text-center text-4xl font-medium">
-              Please refresh page again...💭
+            <h3 className="text-center text-xl font-medium text-gray-700">
+              No sections available. Please refresh the page...💭
             </h3>
           </MessageCard>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

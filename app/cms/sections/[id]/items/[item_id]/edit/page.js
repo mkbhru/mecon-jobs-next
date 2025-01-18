@@ -9,40 +9,48 @@ const EditItemPage = () => {
   const { id, item_id } = useParams();
   const [item, setItem] = useState(null);
   const [content, setContent] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [pdf_url, setPdfUrl] = useState("");
   const [error, setError] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [pdfFile, setPdfFile] = useState(null);
   const [showFileInput, setShowFileInput] = useState(false);
+  const [applyOnline, setApplyOnline] = useState("");
 
-  useEffect(() => {
-    const fetchItem = async () => {
-      try {
-        const response = await fetch(`/api/cms/items/${item_id}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch item details");
-        }
-        const data = await response.json();
-        setItem(data);
-        setContent(data.content);
-        setPdfUrl(data.pdf_url);
-        setIsVisible(data.is_visible);
-      } catch (err) {
-        console.error("Error fetching item:", err);
-        setError("Failed to load item details.");
+  const formatDateTime = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+useEffect(() => {
+  const fetchItem = async () => {
+    try {
+      const response = await fetch(`/api/cms/items/${item_id}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch item details");
       }
-    };
-
-    fetchItem();
-  }, [item_id]);
-
-  const handleViewInNewTab = (file) => {
-    if (file) {
-      window.open(`/api/download?file=${file}`, "_blank");
-    } else {
-      alert("No file to view");
+      const data = await response.json();
+      setItem(data);
+      setContent(data.content);
+      setPdfUrl(data.pdf_url);
+      setIsVisible(data.is_visible);
+      setStartDate(formatDateTime(data.start_date)); // Format the date
+      setEndDate(formatDateTime(data.end_date)); // Format the date
+      setApplyOnline(data.apply_online);
+    } catch (err) {
+      console.error("Error fetching item:", err);
+      setError("Failed to load item details.");
     }
   };
+
+  fetchItem();
+}, [item_id]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,27 +66,27 @@ const EditItemPage = () => {
           body: formData,
         });
         if (response.ok) {
-          toast.success("Pdf Updated Successfully 👍");
+          toast.success("PDF Updated Successfully 👍");
         } else {
           const data = await response.json();
           setError(data.error || "Error adding item. Please try again.");
-          toast.error(`Pdf Reupload error, ${data.error}`);
+          toast.error(`PDF Reupload error, ${data.error}`);
         }
       } catch (error) {
         setError(
-          "An unexpected error occurred in reuploading pdf. Please try again."
+          "An unexpected error occurred in reuploading PDF. Please try again."
         );
         toast.error(error);
       }
-    }else{
-      toast.info("no change in PDF");
+    } else {
+      toast.info("No change in PDF");
     }
 
     try {
       const response = await fetch(`/api/cms/items/${item_id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content, isVisible }),
+        body: JSON.stringify({ content, isVisible, startDate, endDate, applyOnline }),
       });
 
       if (response.ok) {
@@ -134,7 +142,6 @@ const EditItemPage = () => {
             <label className="block text-sm font-medium mb-2">
               Notice/Corrigendum/etc Description
             </label>
-
             <textarea
               className="textarea textarea-bordered w-full h-24 font-medium"
               value={content}
@@ -142,41 +149,39 @@ const EditItemPage = () => {
               required
             ></textarea>
           </div>
-          <div className="flex justify-end p-4">
-            {/* change pdf button */}
-            <button
-              type="button"
-              onClick={() => setShowFileInput(!showFileInput)}
-              className="btn btn-primary  mr-2"
-            >
-              Change PDF
-            </button>
+          <div className="flex justify-end pr-4">
+            {item.pdf_url && (
+              <button
+                type="button"
+                onClick={() => setShowFileInput(!showFileInput)}
+                className="btn btn-primary mr-2 btn-sm"
+              >
+                Change PDF
+              </button>
+            )}
             {item.pdf_url && (
               <div
                 onClick={() =>
                   handleViewInNewTab(item.pdf_url.split("/").pop())
                 }
-                className="btn btn-primary "
+                className="btn btn-primary btn-sm"
               >
                 View PDF
               </div>
             )}
           </div>
-          <div>
-            {showFileInput && (
-              <div className="mt-4 flex justify-end pr-4">
-                <input
-                  type="file"
-                  accept=".pdf"
-                  onChange={(e) => setPdfFile(e.target.files[0])}
-                  className="file-input file-input-bordered file-input-primary w-full max-w-xs "
-                />
-              </div>
-            )}
-          </div>
-          <div className="flex justify-end p-4">
-            {/* Toggle Switch */}
-            <h1 className="text-xl font-bold mr-4">Visibility:</h1>
+          {showFileInput && (
+            <div className="mt-4 flex justify-end pr-4">
+              <input
+                type="file"
+                accept=".pdf"
+                onChange={(e) => setPdfFile(e.target.files[0])}
+                className="file-input file-input-bordered file-input-primary w-full max-w-xs"
+              />
+            </div>
+          )}
+          <div className="flex justify-end pr-4 mt-0">
+            <h1 className="text-lg font-bold mr-4">Visibility:</h1>
             <button
               type="button"
               onClick={() => setIsVisible(!isVisible)}
@@ -191,8 +196,54 @@ const EditItemPage = () => {
               ></div>
             </button>
           </div>
+          <div className="mt-4 flex justify-between">
+            <div className="flex flex-col">
+              <label className="block text-sm font-medium mb-2">
+                Start Date:
+              </label>
+              <input
+                type="datetime-local"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="input input-bordered w-full input-sm"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label className="block text-sm font-medium mb-2">
+                End Date:
+              </label>
+              <input
+                type="datetime-local"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="input input-bordered w-full input-sm"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col mb-4 mt-2">
+            <div className="flex">
+              <label className="block text-sm font-medium">Apply Online:</label>
+              <div
+                className="tooltip tooltip-right"
+                data-tip="If the link is filled an apply online button will be shown next to notification, till the end date"
+              >
+                <p className="pl-1 text-red-500 text-sm font-medium">?</p>
+              </div>
+            </div>
+
+            {/* Tooltip with question mark */}
+            <div className="flex items-center mt-1">
+              <input
+                type="text"
+                value={applyOnline}
+                onChange={(e) => setApplyOnline(e.target.value)}
+                className="input input-bordered w-full input-sm"
+              />
+            </div>
+          </div>
           <div className="flex justify-between items-center p-2 mt-16">
-            {/* Delete Button on the Left */}
             <button
               type="button"
               className="btn btn-primary bg-red-500"
@@ -200,8 +251,6 @@ const EditItemPage = () => {
             >
               DELETE
             </button>
-
-            {/* Other Buttons on the Right */}
             <div className="flex space-x-2">
               <button
                 type="button"

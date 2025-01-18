@@ -1,11 +1,21 @@
 import { NextResponse } from "next/server";
 import db from "@/utils/db";
 
+const formatToMySQLDateTime = (isoString) => {
+  const date = new Date(isoString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
 export async function PUT(req, { params }) {
-  const { item_id } = await params;
+  const { item_id } = params;
 
   try {
-    const { content, isVisible } = await req.json();
+    const { content, isVisible, startDate, endDate, applyOnline } = await req.json();
 
     // Validate input
     if (!content || !item_id) {
@@ -15,9 +25,21 @@ export async function PUT(req, { params }) {
       );
     }
 
+    // Format dates for MySQL
+    const formattedStartDate = formatToMySQLDateTime(startDate);
+    const formattedEndDate = formatToMySQLDateTime(endDate);
+
     // Update the item in the database
-    const query = "UPDATE section_items SET content = ? , is_visible = ? WHERE id = ?";
-    await db.execute(query, [content, isVisible, item_id]);
+    const query =
+      "UPDATE section_items SET content = ?, is_visible = ?, start_date = ?, end_date = ?, apply_online = ? WHERE id = ? ";
+    await db.execute(query, [
+      content,
+      isVisible,
+      formattedStartDate,
+      formattedEndDate,
+      applyOnline,
+      item_id
+    ]);
 
     return NextResponse.json(
       { message: "Item updated successfully" },
@@ -64,6 +86,7 @@ export async function GET(req, { params }) {
 
 import fs from "fs";
 import path from "path";
+import { start } from "repl";
 
 export async function DELETE(req, { params }) {
   const { item_id } = params; // 'params' is already an object, no need to 'await' it
