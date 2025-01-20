@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import withAuth from "@/utils/withAuth";
 
 const AddItemPage = () => {
   const { id } = useParams();
@@ -202,4 +203,4 @@ const AddItemPage = () => {
   );
 };
 
-export default AddItemPage;
+export default withAuth(AddItemPage);

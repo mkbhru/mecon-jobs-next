@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import withAuth from "@/utils/withAuth";
 
 const AddSection = () => {
   const [name, setName] = useState("");
@@ -68,4 +69,4 @@ const AddSection = () => {
   );
 };
 
-export default AddSection;
+export default withAuth(AddSection);

@@ -1,44 +1,25 @@
-"use client";
+
+'use client'
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Loading from "../components/Loading";
 import FormattedDate from "../components/helper/FormattedDate";
+import withAuth from "@/utils/withAuth";
 
 const CmsDashboard = () => {
   const [sections, setSections] = useState([]);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
-    // Function to check authentication
-    const checkAuthentication = async () => {
-      try {
-        const response = await fetch("/api/cms/auth/verify", {
-          method: "GET",
-          credentials: "include", // Ensures cookies are sent
-        });
-
-        if (!response.ok) {
-          throw new Error("Not authenticated");
-        }
-
-        setLoading(false); // User is authenticated
-      } catch (error) {
-        // Redirect to login page if not authenticated
-        router.push("/cms/login");
-      }
-    };
-
-    // Fetch sections only if authenticated
     const fetchSections = async () => {
       const response = await fetch("/api/cms/sections");
       const data = await response.json();
       setSections(data);
+      setLoading(false);
     };
 
-    checkAuthentication().then(fetchSections);
-  }, [router]);
+    fetchSections();
+  }, []);
 
   if (loading) {
     return <Loading />;
@@ -147,4 +128,4 @@ const CmsDashboard = () => {
   );
 };
 
-export default CmsDashboard;
+export default withAuth(CmsDashboard);

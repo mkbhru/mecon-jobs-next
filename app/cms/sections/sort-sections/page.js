@@ -4,6 +4,7 @@ import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
+import withAuth from "@/utils/withAuth";
 
 export default function SortSections() {
   const router = useRouter();
@@ -81,7 +82,7 @@ export default function SortSections() {
     }
   };
 
-  return (
+  return withAuth(
     <div className="min-h-screen bg-base-200 p-4 rounded-md">
       <div className="container mx-auto p-6">
         <h1 className="text-3xl font-bold mb-6">Sort Advertisements</h1>

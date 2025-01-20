@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "react-toastify";
 import Loading from "@/app/components/Loading";
+import withAuth from "@/utils/withAuth";
 
 const EditItemPage = () => {
   const router = useRouter();
@@ -270,4 +271,4 @@ useEffect(() => {
   );
 };
 
-export default EditItemPage;
+export default withAuth(EditItemPage);
