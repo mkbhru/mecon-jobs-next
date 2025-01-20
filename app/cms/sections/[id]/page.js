@@ -6,6 +6,7 @@ import Loading from "@/app/components/Loading";
 import Link from "next/link";
 import MessageCard from "@/app/components/helper/MessageCard";
 import FormattedDate from "@/app/components/helper/FormattedDate";
+import withAuth from "@/utils/withAuth";
 
 const SectionItemsPage = () => {
   const { id } = useParams(); // Use the `useParams` hook to get the `id`
@@ -193,4 +194,4 @@ const SectionItemsPage = () => {
   );
 };
 
-export default SectionItemsPage;
+export default withAuth(SectionItemsPage);

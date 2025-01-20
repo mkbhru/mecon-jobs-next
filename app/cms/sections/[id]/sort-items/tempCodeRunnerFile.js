@@ -1,1 +1,0 @@
-"/api/cms/sections/sortget"

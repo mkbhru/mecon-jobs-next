@@ -1,12 +1,6 @@
-// app/api/cms/auth/login/route.js
-
 import { NextResponse } from "next/server";
-import mysql from "mysql2/promise";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import db from "@/utils/db";
-
-// Database connection setup
 
 export async function POST(req) {
   const { email, password } = await req.json();
@@ -25,14 +19,6 @@ export async function POST(req) {
 
     const user = rows[0];
 
-    // Compare the hashed password with the provided password
-    // const isPasswordValid = await bcrypt.compare(password, user.password);
-    // if (!isPasswordValid) {
-    //   return NextResponse.json(
-    //     { message: "Invalid credentials" },
-    //     { status: 401 }
-    //   );
-    // }
     const isPasswordValid =  (password === user.password);
     if (!isPasswordValid) {
       return NextResponse.json(
@@ -45,8 +31,9 @@ export async function POST(req) {
     const token = jwt.sign(
       { id: user.id, email: user.email },
       process.env.JWT_SECRET, // Add JWT secret to .env file
-      { expiresIn: "1h" } // Token expiry time
+      { expiresIn: "10m" } // Token expiry time
     );
+
 
     // Return the token
     return NextResponse.json({ token });

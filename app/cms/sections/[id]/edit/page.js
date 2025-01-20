@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Loading from "@/app/components/Loading";
 import { toast } from "react-toastify";
+import withAuth from "@/utils/withAuth";
 
 const EditSectionPage = () => {
   const router = useRouter();
@@ -176,4 +177,4 @@ const EditSectionPage = () => {
   );
 };
 
-export default EditSectionPage;
+export default withAuth(EditSectionPage);
