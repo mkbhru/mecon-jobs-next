@@ -19,7 +19,7 @@ function Header() {
   const isCmsRoute = router.startsWith("/cms");
   const headerText = isCmsRoute
     ? "MECON Careers Management System"
-    : "MECON Career Opportunities";
+    : "CAREER OPPORTUNITIES";
   const isLoginRoute = router === "/cms/login";
 
   return (
@@ -51,7 +51,7 @@ function Header() {
         </div>
 
         {/* Center Section */}
-        <div className="navbar-center hidden md:flex">
+        <div className="navbar-center flex">
           <a className="text-xl font-bold">{headerText}</a>
         </div>
 

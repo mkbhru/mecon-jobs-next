@@ -67,7 +67,7 @@ const FrontendPage = () => {
     <div>
       <FraudulentNotice/>
       {/* <StripSection /> */}
-      <div className="container mx-auto p-16 min-h-screen bg-gray-100">
+      <div className="container mx-auto p-8  min-h-screen bg-gray-100">
         {sections.length > 0 ? (
           sections.map((section) => (
             <div
@@ -120,6 +120,7 @@ const FrontendPage = () => {
                   </li>
                 ))}
               </ul>
+
             </div>
           ))
         ) : (
