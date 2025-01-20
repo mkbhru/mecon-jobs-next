@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useParams, useRouter } from "next/navigation";
 import withAuth from "@/utils/withAuth";
 
-export default function SortItems() {
+const SortItems=() =>{
   const { id } = useParams();
   const router = useRouter();
 
@@ -100,7 +100,7 @@ export default function SortItems() {
     }
   };
 
-  return withAuth(
+  return (
     <div className="min-h-screen bg-base-200 p-4 rounded-md">
       <div className="container mx-auto p-6">
         <h1 className="text-3xl font-bold mb-6">Sort Advertisements</h1>
@@ -185,3 +185,5 @@ export default function SortItems() {
     </div>
   );
 }
+
+export default withAuth(SortItems);
